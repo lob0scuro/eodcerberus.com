@@ -27,9 +27,9 @@
   font-size: 1.5rem;
   display: flex;
   align-items: center;
-  color: var(--bannerBackground);
+  color: var(--textSecondary);
 }
 
 .userBarButtonBlock button.activeButton {
-  color: var(--textSecondary);
+  color: var(--bannerBackground);
 }

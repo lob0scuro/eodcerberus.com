@@ -1,8 +1,9 @@
 import styles from "./AddEOD.module.css";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import MoneyField from "../../components/MoneyField";
+import { formatCurrency } from "../../utils/Helpers";
 
 const AddEOD = () => {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
@@ -26,7 +27,35 @@ const AddEOD = () => {
     cash: "",
     checks: "",
   });
-  const navigate = useNavigate();
+
+  const subTotal = useMemo(() => {
+    const fields = [
+      "new",
+      "used",
+      "extended_warranty",
+      "diagnostic_fees",
+      "in_shop_repairs",
+      "ebay_sales",
+      "service",
+      "parts",
+      "delivery",
+    ];
+    const subtractredFields = ["misc_deductions", "refunds", "ebay_returns"];
+    let total = 0;
+    fields.forEach((field) => {
+      const value = parseFloat(formData[field]);
+      if (!isNaN(value)) {
+        total += value;
+      }
+    });
+    subtractredFields.forEach((field) => {
+      const value = parseFloat(formData[field]);
+      if (!isNaN(value)) {
+        total -= value;
+      }
+    });
+    return total.toFixed(2);
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -103,6 +132,7 @@ const AddEOD = () => {
             id="ticket_number"
             value={formData.ticket_number}
             onChange={handleChange}
+            required
           />
         </div>
         <div>
@@ -113,6 +143,7 @@ const AddEOD = () => {
             id="units"
             value={formData.units}
             onChange={handleChange}
+            required
           />
         </div>
         <div>
@@ -277,6 +308,10 @@ const AddEOD = () => {
             placeholder={"0.00"}
           />
         </div>
+
+        <p className={styles.subTotalDisplay}>
+          Sub-Total: {formatCurrency(subTotal)}
+        </p>
         <button type="submit">Submit</button>
       </form>
     </section>

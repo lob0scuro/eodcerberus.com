@@ -16,11 +16,14 @@
 .eodForm {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  /* grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); */
+  /* gap: 2rem; */
   column-gap: 10px;
   row-gap: 5px;
   align-items: center;
   justify-items: center;
-  /* border: 1px solid red; */
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .eodForm div {
   display: flex;
@@ -49,4 +52,13 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.subTotalDisplay {
+  grid-column: span 4;
+  justify-self: center;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: var(--textSecondary);
 }

@@ -1,0 +1,66 @@
+.eodListBox {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 1rem auto;
+}
+
+.noEODs {
+  color: var(--bannerBackground);
+  font-size: 1.5rem;
+  margin-block: 1rem;
+  place-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.eodListBox ul {
+  list-style-type: none;
+  padding: 0;
+  margin-block: 1rem;
+}
+.eodListBox li {
+  border: 1px solid var(--linkText);
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.eodListBox li div:first-child {
+  align-self: flex-start;
+}
+.eodListBox li div h3 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--bannerBackground);
+  text-decoration: underline;
+  margin-bottom: 2rem;
+}
+.eodListBox li div p {
+  margin: 0.2rem 0 0 0;
+  color: var(--linkText);
+}
+.eodListBox li div p.subTotal {
+  font-weight: bold;
+  color: var(--buttonPrimary);
+}
+.eodListBox li:hover {
+  background-color: var(--textSecondary);
+  cursor: pointer;
+}
+
+.eodListBox div:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.eodListBox div:last-child p {
+  font-size: 12px;
+  color: var(--background);
+}

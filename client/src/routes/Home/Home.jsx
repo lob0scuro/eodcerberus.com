@@ -8,14 +8,16 @@ import {
   faList,
   faSquarePlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AddEOD from "../Create/AddEOD";
 import ReadEOD from "../Read/ReadEOD";
+import UserEODs from "../Read/UserEODs";
 import clsx from "clsx";
 
 const Components = {
-  add_eod: <AddEOD />,
-  read_eod: <ReadEOD />,
+  add_eod: AddEOD,
+  read_eod: (props) => <ReadEOD {...props} />,
+  user_eods: (props) => <UserEODs {...props} />,
 };
 
 const Home = () => {
@@ -23,12 +25,9 @@ const Home = () => {
   const [eods, setEods] = useState([]);
   const [component, setComponent] = useState("add_eod");
   const [activeButton, setActiveButton] = useState(0);
-  const navigate = useNavigate();
+  const [ticket, setTicket] = useState(null);
 
-  const handleClick = (index, componentName) => {
-    setActiveButton(index);
-    setComponent(componentName);
-  };
+  const SelectedComponent = Components[component];
 
   return (
     <section>
@@ -38,18 +37,21 @@ const Home = () => {
         </h2>
         <div className={styles.userBarButtonBlock}>
           <button
-            className={activeButton === 0 ? styles.activeButton : ""}
-            onClick={() => handleClick(0, "add_eod")}
+            className={component === "add_eod" ? styles.activeButton : ""}
+            onClick={() => setComponent("add_eod")}
           >
             <FontAwesomeIcon icon={faSquarePlus} />
           </button>
           <button
-            className={activeButton === 1 ? styles.activeButton : ""}
-            onClick={() => handleClick(1, "read_eod")}
+            className={component === "read_eod" ? styles.activeButton : ""}
+            onClick={() => setComponent("read_eod")}
           >
             <FontAwesomeIcon icon={faEye} />
           </button>
-          <button className={activeButton === 2 ? styles.activeButton : ""}>
+          <button
+            className={component === "user_eods" ? styles.activeButton : ""}
+            onClick={() => setComponent("user_eods")}
+          >
             <FontAwesomeIcon icon={faList} />
           </button>
           <button className={activeButton === 3 ? styles.activeButton : ""}>
@@ -57,7 +59,13 @@ const Home = () => {
           </button>
         </div>
       </div>
-      <div>{Components[component]}</div>
+      <div>
+        <SelectedComponent
+          setComponent={setComponent}
+          setTicket={setTicket}
+          ticket={ticket}
+        />
+      </div>
     </section>
   );
 };
