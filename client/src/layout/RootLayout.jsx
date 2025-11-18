@@ -33,7 +33,12 @@ const RootLayout = () => {
         <Outlet />{" "}
       </main>
       <footer>
-        <button onClick={logout}>logout</button>
+        {user && (
+          <button onClick={logout} id="logout-link">
+            logout
+          </button>
+        )}
+
         <p>Matt's Appliances</p>
         <p>Cerberus</p>
       </footer>

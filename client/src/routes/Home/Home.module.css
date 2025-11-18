@@ -1,0 +1,29 @@
+.userBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  border-bottom: 2px solid var(--linkText);
+}
+
+.homeUser {
+  align-self: flex-start;
+  font-size: 2rem;
+  color: var(--linkText);
+}
+
+.userBarButtonBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+
+.userBarButtonBlock button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  color: var(--bannerBackground);
+}
