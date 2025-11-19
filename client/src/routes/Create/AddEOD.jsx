@@ -19,8 +19,6 @@ const AddEOD = () => {
     service: "",
     parts: "",
     delivery: "",
-    cash_deposits: "",
-    misc_deductions: "",
     refunds: "",
     ebay_returns: "",
     card: "",
@@ -100,8 +98,6 @@ const AddEOD = () => {
         service: "",
         parts: "",
         delivery: "",
-        cash_deposits: "",
-        misc_deductions: "",
         refunds: "",
         ebay_returns: "",
         acima: "",
@@ -118,17 +114,19 @@ const AddEOD = () => {
     }
   };
   return (
-    <section>
-      <input
-        type="date"
-        name="date"
-        id="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        className={styles.datePicker}
-      />
+    <div className={styles.formMasterContainer}>
+      <div>
+        <input
+          type="date"
+          name="date"
+          id="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className={styles.datePicker}
+        />
+      </div>
       <form className={styles.eodForm} onSubmit={handleSubmit}>
-        <div>
+        <div className={styles.topRow}>
           <label htmlFor="ticket_number">Ticket #</label>
           <input
             type="text"
@@ -139,8 +137,6 @@ const AddEOD = () => {
             placeholder="XXXX"
             required
           />
-        </div>
-        <div>
           <label htmlFor="units">Units</label>
           <input
             type="text"
@@ -150,6 +146,9 @@ const AddEOD = () => {
             onChange={handleChange}
             required
           />
+          <br />
+          <hr />
+          <br />
         </div>
         <div>
           <label htmlFor="new">New</label>
@@ -233,24 +232,6 @@ const AddEOD = () => {
           />
         </div>
         <div>
-          <label htmlFor="cash_deposits">Cash Deposits</label>
-          <MoneyField
-            name={"cash_deposits"}
-            value={formData.cash_deposits}
-            onChange={handleChange}
-            placeholder={"0.00"}
-          />
-        </div>
-        <div>
-          <label htmlFor="misc_deductions">Misc. Deductions</label>
-          <MoneyField
-            name={"misc_deductions"}
-            value={formData.misc_deductions}
-            onChange={handleChange}
-            placeholder={"0.00"}
-          />
-        </div>
-        <div>
           <label htmlFor="refunds">Refunds</label>
           <MoneyField
             name={"refunds"}
@@ -319,7 +300,7 @@ const AddEOD = () => {
         </p>
         <button type="submit">Submit</button>
       </form>
-    </section>
+    </div>
   );
 };
 

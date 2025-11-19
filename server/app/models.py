@@ -12,10 +12,11 @@ class Users(db.Model, UserMixin):
     first_name = Column(String(150), nullable=False)
     last_name = Column(String(150), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
-    password_hash = Column(String(256), nullable=False, unique=True)
+    password_hash = Column(String(256), nullable=False)
     department = Column(dpt_enum)
     is_admin = Column(Boolean, server_default='0')
     eods = relationship('EOD', back_populates='salesman', lazy=True) 
+    deductions = relationship('Deductions', back_populates="salesman", lazy=True)
     
     def serialize(self):
         return {
@@ -26,6 +27,8 @@ class Users(db.Model, UserMixin):
             "department": self.department,
             "is_admin": self.is_admin
         }
+        
+
         
         
 class EOD(db.Model):   
@@ -43,8 +46,6 @@ class EOD(db.Model):
     service = Column(Integer, nullable=False, server_default='0')
     parts = Column(Integer, nullable=False, server_default='0')
     delivery = Column(Integer, nullable=False, server_default='0')
-    cash_deposits = Column(Integer, nullable=False, server_default='0')
-    misc_deductions = Column(Integer, nullable=False, server_default='0')
     refunds = Column(Integer, nullable=False, server_default='0')
     ebay_returns = Column(Integer, nullable=False, server_default='0')
     acima = Column(Integer, nullable=False, server_default='0')
@@ -81,7 +82,6 @@ class EOD(db.Model):
             self.ebay_returns
         ]
         
-        self.cash = self.cash - self.misc_deductions
         
         self.sub_total = sum(revenue_items) - sum(deductions)
         
@@ -100,8 +100,6 @@ class EOD(db.Model):
             "service": self.service,
             "parts": self.parts,
             "delivery": self.delivery,
-            "cash_deposits": self.cash_deposits,
-            "misc_deductions": self.misc_deductions,
             "refunds": self.refunds,
             "ebay_returns": self.ebay_returns,
             "acima": self.acima,
@@ -120,7 +118,18 @@ class EOD(db.Model):
                 "department": self.salesman.department
             }
         }
+
+
+class Deductions(db.Model):
+    __tablename__ = "deductions"
     
+    id = Column(Integer, primary_key=True)
+    amount = Column(Integer, nullable=False, server_default='0')
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    salesman = relationship("Users", back_populates="deductions")
+    
+    date = Column(Date, nullable=False)
+    reason = Column(Text, nullable=True)
     
 #Event Listeners
 @event.listens_for(EOD, "before_insert")

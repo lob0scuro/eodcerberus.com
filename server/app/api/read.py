@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, current_app
-from app.models import Users, EOD
+from app.models import Users, EOD, Deductions
 from app.extensions import db
 from flask_login import current_user
 from datetime import datetime, timedelta
@@ -54,6 +54,17 @@ def eods_by_user(user_id):
         return jsonify(success=False, message="No EODs found for this user"), 400
     return jsonify(success=True, eods=[e.serialize() for e in eods]), 200
 
+@reader.route("/eods_by_date", methods=["GET"])
+def eods_by_date():
+    date = request.args.get("date")
+    if not date:
+        return jsonify(success=False, message="Date is required"), 400
+    date = datetime.strptime(date, "%Y-%m-%d").date()
+    eods = EOD.query.filter_by(date=date).all()
+    if not eods:
+        return jsonify(success=False, message="No EOD's found for this date"), 400
+    return jsonify(success=True, eods=[e.serialize() for e in eods]), 200
+
 
 @reader.route("/eod_by_date_range", methods=["GET"])
 def eod_by_date_range():
@@ -87,6 +98,8 @@ def run_report(id, date):
     date = datetime.strptime(date, "%Y-%m-%d").date()
     
     eods = EOD.query.filter(EOD.date == date, EOD.user_id == id).all()
+    deductions = Deductions.query.filter(Deductions.date == date, Deductions.user_id == id).all()
+    salesman = Users.query.get(id)
     if not eods:
         return jsonify(success=False, message="No EOD's match this query"), 400
     
@@ -112,6 +125,7 @@ def run_report(id, date):
         "cash_deposits": 0,
         "refunds": 0,
         "ebay_returns": 0,
+        "salesman": salesman.serialize()
     }
     for e in eods:
         totals["total_sales"] += e.sub_total
@@ -130,10 +144,14 @@ def run_report(id, date):
         totals["checks"] += e.checks
         totals["acima"] += e.acima
         totals["tower_loan"] += e.tower_loan
-        totals["misc_deductions"] += e.misc_deductions
-        totals["cash_deposits"] += e.cash_deposits
         totals["refunds"] += e.refunds
         totals["ebay_returns"] += e.ebay_returns
+        totals["cash_deposits"] += e.cash
+    
+    for d in deductions:
+        totals["misc_deductions"] += d.amount
+        
+    totals["cash_deposits"] = totals["cash_deposits"] - totals["misc_deductions"]
         
     return jsonify(success=True, totals=totals), 200
 

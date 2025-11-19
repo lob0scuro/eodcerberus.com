@@ -34,8 +34,6 @@ def update_eod(id):
         eod.service = to_int(data.get("service", eod.service)  )
         eod.parts = to_int(data.get("parts", eod.parts))
         eod.delivery = to_int(data.get("delivery", eod.delivery)   )
-        eod.cash_deposits = to_int(data.get("cash_deposits", eod.cash_deposits))
-        eod.misc_deductions = to_int(data.get("misc_deductions", eod.misc_deductions))
         eod.refunds = to_int(data.get("refunds", eod.refunds))
         eod.ebay_returns = to_int(data.get("ebay_returns", eod.ebay_returns))
         eod.acima = to_int(data.get("acima", eod.acima))

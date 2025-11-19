@@ -40,8 +40,6 @@ const ReadEOD = ({ ticket }) => {
           service: data.eod.service || "",
           parts: data.eod.parts || "",
           delivery: data.eod.delivery || "",
-          cash_deposits: data.eod.cash_deposits || "",
-          misc_deductions: data.eod.misc_deductions || "",
           refunds: data.eod.refunds || "",
           ebay_returns: data.eod.ebay_returns || "",
           card: data.eod.card || "",
@@ -87,8 +85,6 @@ const ReadEOD = ({ ticket }) => {
         service: eodData.service || "",
         parts: eodData.parts || "",
         delivery: eodData.delivery || "",
-        cash_deposits: eodData.cash_deposits || "",
-        misc_deductions: eodData.misc_deductions || "",
         refunds: eodData.refunds || "",
         ebay_returns: eodData.ebay_returns || "",
         card: eodData.card || "",
@@ -478,46 +474,6 @@ const ReadEOD = ({ ticket }) => {
                   <>
                     Tower Loan:{" "}
                     <small>{formatCurrency(eodData.tower_loan)}</small>
-                  </>
-                )}
-              </li>
-              <li>
-                {editing ? (
-                  <>
-                    <label htmlFor="misc_deductions">Misc. Deductions:</label>
-                    <small>
-                      <MoneyField
-                        name={"misc_deductions"}
-                        value={eodData.misc_deductions}
-                        placeholder={eodData.misc_deductions}
-                        onChange={handleChange}
-                      />
-                    </small>
-                  </>
-                ) : (
-                  <>
-                    Misc. Deductions:{" "}
-                    <small>{formatCurrency(eodData.misc_deductions)}</small>
-                  </>
-                )}
-              </li>
-              <li>
-                {editing ? (
-                  <>
-                    <label htmlFor="cash_deposits">Cash Deposits:</label>
-                    <small>
-                      <MoneyField
-                        name={"cash_deposits"}
-                        value={eodData.cash_deposits}
-                        placeholder={eodData.cash_deposits}
-                        onChange={handleChange}
-                      />
-                    </small>
-                  </>
-                ) : (
-                  <>
-                    Cash Deposits:{" "}
-                    <small>{formatCurrency(eodData.cash_deposits)}</small>
                   </>
                 )}
               </li>

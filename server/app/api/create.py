@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, current_app
-from app.models import Users, EOD
+from app.models import Users, EOD, Deductions
 from app.extensions import db
 from flask_login import login_required, current_user
 from datetime import datetime, date, timedelta
@@ -31,8 +31,6 @@ def submit_eod():
         service=to_int(data.get("service")),
         parts=to_int(data.get("parts")),
         delivery=to_int(data.get("delivery")),
-        cash_deposits=to_int(data.get("cash_deposits")),
-        misc_deductions=to_int(data.get("misc_deductions")),
         refunds=to_int(data.get("refunds")),
         ebay_returns=to_int(data.get("ebay_returns")),
         acima=to_int(data.get("acima")),
@@ -50,10 +48,38 @@ def submit_eod():
         current_app.logger.info(
             f"{current_user.first_name} {current_user.last_name[0]}. submitted an EOD"
         )
-        return jsonify(success=True, message="Submitted successfully!"), 201
+        return jsonify(success=True, message="Your EOD has been submitted!"), 201
 
     except Exception as e:
         db.session.rollback()
         current_app.logger.error(f"[EOD SUBMISSION ERROR]: {e}")
         return jsonify(success=False, message="There was an error submitting your EOD"), 500
      
+     
+@creator.route("/submit_deduction", methods=["POST"])
+@login_required
+def submit_deduction():
+    data = request.get_json()
+    if not data:
+        return jsonify(success=False, message="No payload in request"), 400
+    
+    amount = data.get("amount")
+    reason = data.get("reason")
+    date = datetime.strptime(data.get("date"), "%Y-%m-%d").date()
+    
+    deduction = Deductions(
+        amount=to_int(amount),
+        user_id=current_user.id,
+        date=date,
+        reason=reason,
+    )
+    
+    try:
+        db.session.add(deduction)
+        db.session.commit()
+        
+        return jsonify(success=True, message="Your deduction has been submitted!"), 201
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"[DEDUCTION ERROR]: {e}")
+        return jsonify(success=False, message="There was an error when submitting deduction"), 500

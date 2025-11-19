@@ -6,30 +6,24 @@ import {
   faChartSimple,
   faEllipsisVertical,
   faEye,
-  faFileInvoiceDollar,
   faList,
+  faMoneyBillTransfer,
   faUserPlus,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import AddEOD from "../routes/Create/AddEOD";
-import ReadEOD from "../routes/Read/ReadEOD";
-import UserEODs from "../routes/Read/UserEODs";
 
 const paths = {
   add_eod: {
     icon: faSquarePlus,
-    component: AddEOD,
   },
   read_eod: {
     icon: faEye,
-    component: (props) => <ReadEOD {...props} />,
   },
   user_eods: {
     icon: faList,
-    component: (props) => <UserEODs {...props} />,
   },
   view_users: {
     icon: faUsers,
@@ -39,6 +33,9 @@ const paths = {
   },
   user_metrics: {
     icon: faChartSimple,
+  },
+  deductions: {
+    icon: faMoneyBillTransfer,
   },
 };
 
@@ -63,8 +60,9 @@ const UserBar = ({ setComponent, component, title, pages }) => {
     <div className={styles.userBar}>
       <h2 className={styles.homeUser}>{title}</h2>
       <div className={styles.userBarButtonBlock}>
-        {pages?.map((page) => (
+        {pages?.map((page, index) => (
           <button
+            key={index}
             className={component === page ? styles.activeButton : ""}
             onClick={() => setComponent(page)}
           >

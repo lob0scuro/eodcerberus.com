@@ -22,7 +22,7 @@ const DailyReport = ({ report, date }) => {
           />
           <div>
             <h2>
-              {user.first_name} {user.last_name}
+              {report.salesman.first_name} {report.salesman.last_name}
             </h2>
             <p className={styles.reportHeaderDate}>{formatDate(date)}</p>
           </div>

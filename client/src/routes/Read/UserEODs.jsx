@@ -11,12 +11,12 @@ const UserEODs = ({ setComponent, setTicket }) => {
   const [eods, setEods] = useState([]);
   const { user } = useAuth();
   const today = new Date().toISOString().split("T")[0];
-  const [startDate, setStartDate] = useState("2020-01-01");
+  const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
   const [reportDate, setReportDate] = useState(today);
   const [users, setUsers] = useState([]);
   const [userId, setUserId] = useState(user.id);
-  const [totals, setTotals] = useState({});
+  const [totals, setTotals] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -62,8 +62,8 @@ const UserEODs = ({ setComponent, setTicket }) => {
 
   const handleMonthChange = (month) => {
     if (month === "") {
-      setStartDate("2020-01-01");
-      setEndDate(new Date().toISOString().split("T")[0]);
+      setStartDate(today);
+      setEndDate(today);
       return;
     }
 
@@ -77,15 +77,14 @@ const UserEODs = ({ setComponent, setTicket }) => {
     setEndDate(end);
   };
 
-  const runReport = async () => {
+  const runReport = async (id) => {
     try {
-      const response = await fetch(
-        `/api/read/run_report/${user.id}/${reportDate}`
-      );
+      const response = await fetch(`/api/read/run_report/${id}/${reportDate}`);
       const data = await response.json();
       if (!data.success) {
         throw new Error(data.message);
       }
+      console.log(data.totals);
       setTotals(data.totals);
     } catch (error) {
       console.error("[ERROR]: ", error);
@@ -125,6 +124,7 @@ const UserEODs = ({ setComponent, setTicket }) => {
               name="employee"
               id="employee"
               onChange={(e) => setUserId(e.target.value)}
+              value={userId}
             >
               <option value="">--Select an employee--</option>
               {users.map(({ id, first_name, last_name }) => (
@@ -137,16 +137,23 @@ const UserEODs = ({ setComponent, setTicket }) => {
         </div>
         <div className={styles.reportBlock}>
           <div>
-            <label htmlFor="report_date">select a date to run report</label>
+            <label htmlFor="report_date">select a date</label>
             <input
               type="date"
               name="report_date"
               id="report_date"
               value={reportDate}
-              onChange={(e) => setReportDate(e.target.value)}
+              onChange={(e) => {
+                setStartDate(e.target.value);
+                setEndDate(e.target.value);
+                setReportDate(e.target.value);
+              }}
             />
           </div>
-          <button className={styles.runReportButton} onClick={runReport}>
+          <button
+            className={styles.runReportButton}
+            onClick={() => runReport(userId)}
+          >
             Run Report
             <FontAwesomeIcon icon={faFileInvoiceDollar} />
           </button>

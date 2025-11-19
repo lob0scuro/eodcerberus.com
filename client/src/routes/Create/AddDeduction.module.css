@@ -1,0 +1,66 @@
+.deductionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.deductionForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--textSecondary);
+  padding: 2.5rem 1.8rem;
+  border-radius: 12px;
+  color: var(--textPrimary);
+  width: 400px;
+  margin-block: 2rem;
+  box-shadow: -1px 1px 8px #000;
+}
+
+.deductionForm h2 {
+  align-self: center;
+  font-size: 2rem;
+  color: var(--buttonPrimary);
+}
+
+.deductionForm div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 300px;
+}
+
+.deductionForm div label {
+  align-self: flex-start;
+  font-size: 12px;
+}
+.deductionForm div input[type="date"] {
+  font-size: 20px;
+  padding: 4px 6px;
+}
+.deductionForm div input[type="text"] {
+  font-size: 24px;
+  padding: 4px 0 4px 6px;
+}
+.deductionForm div textarea {
+  width: 100%;
+  height: 8rem;
+  resize: none;
+  align-self: center;
+  padding: 4px;
+  font-size: 16px;
+}
+
+.deductionForm button {
+  align-self: center;
+  font-size: 28px;
+  padding: 8px 16px;
+  background-color: var(--buttonPrimary);
+  color: var(--textPrimary);
+  border: none;
+  border-radius: 8px;
+  box-shadow: -1px 1px 6px var(--linkText);
+  margin-top: 2rem;
+}
