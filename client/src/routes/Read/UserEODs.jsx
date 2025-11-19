@@ -3,18 +3,49 @@ import { useAuth } from "../../context/AuthContext";
 import styles from "./UserEODs.module.css";
 import React, { useEffect, useState } from "react";
 import { formatCurrency, formatDate } from "../../utils/Helpers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileInvoiceDollar } from "@fortawesome/free-solid-svg-icons";
+import DailyReport from "../../components/DailyReport";
 
 const UserEODs = ({ setComponent, setTicket }) => {
   const [eods, setEods] = useState([]);
   const { user } = useAuth();
-  const [startDate, setStartDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const today = new Date().toISOString().split("T")[0];
+  const [startDate, setStartDate] = useState("2020-01-01");
+  const [endDate, setEndDate] = useState(today);
+  const [reportDate, setReportDate] = useState(today);
+  const [users, setUsers] = useState([]);
+  const [userId, setUserId] = useState(user.id);
+  const [totals, setTotals] = useState({});
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(`/api/read/get_users`, {
+          method: "GET",
+          credentials: "include",
+        });
+        const data = await response.json();
+        if (!data.success) {
+          throw new Error(data.message);
+        }
+        setUsers(data.users);
+      } catch (error) {
+        console.error("[ERROR]:", error);
+        toast.error(`Error fetching employees: ${error.message}`);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     const fetchEODs = async () => {
       try {
-        const response = await fetch(`/api/read/eods_by_user/${user.id}`);
+        const response = await fetch(
+          `/api/read/eod_by_date_range?start_date=${startDate}&end_date=${endDate}&user_id=${
+            userId || null
+          }`
+        );
         const data = await response.json();
         if (!data.success) {
           throw new Error(data.message);
@@ -26,14 +57,111 @@ const UserEODs = ({ setComponent, setTicket }) => {
       }
     };
     fetchEODs();
-  }, []);
+  }, [userId, startDate, endDate]);
+
+  const handleMonthChange = (month) => {
+    if (month === "") {
+      setStartDate("2020-01-01");
+      setEndDate(new Date().toISOString().split("T")[0]);
+      return;
+    }
+
+    const year = new Date().getFullYear();
+
+    const start = `${year}-${month}-01`;
+    const endDay = new Date(year, month, 0).getDate();
+    const end = `${year}-${month}-${String(endDay).padStart(2, "0")}`;
+
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+  const runReport = async () => {
+    try {
+      const response = await fetch(
+        `/api/read/run_report/${user.id}/${reportDate}`
+      );
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      setEods([]);
+      setTotals(data.totals);
+    } catch (error) {
+      console.error("[ERROR]: ", error);
+      toast.error(error.message);
+    }
+  };
+
   return (
     <section>
+      <div className={styles.searchBar}>
+        <div className={styles.dateSearchBlock}>
+          <div>
+            <label htmlFor="month">Month</label>
+            <select
+              name="month"
+              id="month"
+              onChange={(e) => handleMonthChange(e.target.value)}
+            >
+              <option value="">--Select a month--</option>
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="employee">Employee</label>
+            <select
+              name="employee"
+              id="employee"
+              onChange={(e) => setUserId(e.target.value)}
+            >
+              <option value="">--Select an employee--</option>
+              {users.map(({ id, first_name, last_name }) => (
+                <option key={id} value={id}>
+                  {first_name} {last_name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className={styles.reportBlock}>
+          <div>
+            <label htmlFor="report_date">select a date to run report</label>
+            <input
+              type="date"
+              name="report_date"
+              id="report_date"
+              value={reportDate}
+              onChange={(e) => setReportDate(e.target.value)}
+            />
+          </div>
+          <button className={styles.runReportButton} onClick={runReport}>
+            Run Report
+            <FontAwesomeIcon icon={faFileInvoiceDollar} />
+          </button>
+        </div>
+      </div>
+
       <div className={styles.eodListBox}>
         {eods.length === 0 ? (
-          <p className={styles.noEODs}>
-            [ No EODs found for {user.first_name}. ]
-          </p>
+          // <p className={styles.noEODs}>
+          //   [ No EODs found for{" "}
+          //   {users.find((u) => u.id === Number(userId))?.first_name ||
+          //     "this user"}
+          //   ]
+          // </p>
+          <DailyReport report={totals} date={reportDate} />
         ) : (
           <ul>
             {eods.map(
@@ -58,11 +186,11 @@ const UserEODs = ({ setComponent, setTicket }) => {
                   }}
                 >
                   <div>
+                    <p>{formatDate(date)}</p>
                     <h3>{ticket_number}</h3>
                     <p className={styles.subTotal}>
                       Subtotal: {formatCurrency(sub_total)}
                     </p>
-                    <p>{formatDate(date)}</p>
                     <small>
                       {salesman.first_name} {salesman.last_name[0]}.
                     </small>

@@ -40,7 +40,7 @@ const AddEOD = () => {
       "parts",
       "delivery",
     ];
-    const subtractredFields = ["misc_deductions", "refunds", "ebay_returns"];
+    const subtractredFields = ["refunds", "ebay_returns"];
     let total = 0;
     fields.forEach((field) => {
       const value = parseFloat(formData[field]);
@@ -68,6 +68,10 @@ const AddEOD = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!confirm("Submit Values?")) return;
+    if (formData.ticket_number.length < 4) {
+      alert("Ticket Number must be at least 4 digits long");
+      return;
+    }
     const submitData = { ...formData, date };
 
     try {
@@ -132,6 +136,7 @@ const AddEOD = () => {
             id="ticket_number"
             value={formData.ticket_number}
             onChange={handleChange}
+            placeholder="XXXX"
             required
           />
         </div>

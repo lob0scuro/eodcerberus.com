@@ -54,7 +54,7 @@ const ReadEOD = ({ ticket }) => {
       }
     };
     if (ticketNumber.length >= 4) fetchEOD();
-    else if (ticketNumber.length === 0) setEodData(null);
+    else if (ticketNumber.length < 4) setEodData(null);
   }, [ticketNumber]);
 
   useEffect(() => {
@@ -153,18 +153,6 @@ const ReadEOD = ({ ticket }) => {
             value={ticketNumber}
             onChange={(e) => setTicketNumber(e.target.value)}
           />
-        </div>
-        <div className={styles.monthSearch}>
-          <label htmlFor="month">Month</label>
-          <select name="month" id="month">
-            <option value="">--Select a month--</option>
-          </select>
-        </div>
-        <div className={styles.personSearch}>
-          <label htmlFor="employee">Employee</label>
-          <select name="employee" id="employee">
-            <option value="">--Select a an employee--</option>
-          </select>
         </div>
       </div>
       {eodData && (
@@ -553,6 +541,7 @@ const ReadEOD = ({ ticket }) => {
                 )}
               </li>
             </ul>
+            <hr />
             <h4 className={styles.eodSubTotal}>
               Sub-Total: <strong>{formatCurrency(eodData.sub_total)}</strong>
             </h4>

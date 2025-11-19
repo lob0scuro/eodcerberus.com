@@ -1,5 +1,5 @@
 from app.extensions import db
-from sqlalchemy import Column, Integer, String, Text, Boolean, Date, ForeignKey, Enum, func, event, text
+from sqlalchemy import Column, Integer, String, Text, Boolean, Date, ForeignKey, Enum, func, event
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 
@@ -81,7 +81,10 @@ class EOD(db.Model):
             self.ebay_returns
         ]
         
+        self.cash = self.cash - self.misc_deductions
+        
         self.sub_total = sum(revenue_items) - sum(deductions)
+        
     
     def serialize(self):
         return {

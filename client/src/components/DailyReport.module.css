@@ -1,0 +1,90 @@
+.reportPage {
+  border: 2px solid #000;
+  padding: 1rem;
+}
+
+.reportPage .reportHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: last baseline;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+p.reportHeaderDate {
+  font-style: italic;
+  margin-left: 3px;
+}
+
+.reportHeader button.printPageButton {
+  font-size: 2rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.reportHeader button.printPageButton svg {
+  color: var(--buttonPrimary);
+}
+.reportHeader button.printPageButton svg:hover {
+  color: var(--linkText);
+}
+
+@media print {
+  body,
+  html {
+    margin: 0;
+    padding: 0;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .reportPage,
+  .reportPage * {
+    visibility: visible;
+  }
+
+  .reportPage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0; /* remove padding for printing */
+    margin: 0; /* remove margin for printing */
+    border: none; /* optional: remove border */
+    font-size: 12pt; /* adjust font size to fit content */
+  }
+
+  .reportHeader h2 {
+    font-size: 0.8rem;
+  }
+
+  .reportPage button {
+    display: none;
+  }
+
+  .reportPage * {
+    background: none !important;
+    color: black !important;
+  }
+
+  .reportData {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 12px;
+  }
+
+  .reportData li {
+    margin: 0.2rem 0; /* smaller spacing */
+    padding: 8px;
+  }
+
+  @page {
+    size: A4; /* or letter */
+    margin: 0.5in; /* small margin for printer */
+  }
+}

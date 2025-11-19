@@ -1,7 +1,10 @@
 export function formatDate(dateString) {
+  // const [year, month, day] = dateString.split("-").map(Number);
+
   const date = new Date(dateString);
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
   const months = [
     "Jan",
     "Feb",
@@ -18,9 +21,9 @@ export function formatDate(dateString) {
   ];
 
   const dayName = days[date.getDay()];
-  const monthName = months[date.getMonth()];
-  const day = date.getDate();
-  const year = date.getFullYear();
+  const monthName = months[date.getUTCMonth()];
+  const day = date.getUTCDate();
+  const year = date.getUTCFullYear();
 
   // Determine ordinal suffix (st, nd, rd, th)
   const suffix = (n) => {
@@ -39,12 +42,6 @@ export function formatDate(dateString) {
 
   return `${dayName}, ${monthName} ${day}${suffix(day)} ${year}`;
 }
-
-export const cell = (num) => {
-  if (num.length !== 10) return;
-
-  return `(${num.slice(0, 3)}) ${num.slice(3, 6)}-${num.slice(6)}`;
-};
 
 export const formatCurrency = (amount) => {
   const decimalAmount = amount / 100;

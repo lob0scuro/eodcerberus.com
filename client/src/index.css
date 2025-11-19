@@ -58,15 +58,18 @@ section {
 }
 
 footer {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-block: 2rem;
+  padding-block: 1rem;
+  box-shadow: 0 -2px 8px var(--bannerBackground);
+  background-color: var(--buttonSecondary);
 }
 footer button#logout-link {
   background-color: transparent;
   border: none;
-  color: var(--textSecondary);
+  color: var(--buttonPrimary);
   font-size: 18px;
   font-weight: 700;
   text-decoration: underline;

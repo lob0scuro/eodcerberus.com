@@ -35,7 +35,7 @@ const RootLayout = () => {
       <footer>
         {user && (
           <button onClick={logout} id="logout-link">
-            logout
+            LOGOUT
           </button>
         )}
 
