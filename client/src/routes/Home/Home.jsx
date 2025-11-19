@@ -20,6 +20,7 @@ const Home = () => {
   const [ticket, setTicket] = useState(null);
   const { user } = useAuth();
   const title = `${user.first_name} ${user.last_name}`;
+  const pages = ["add_eod", "read_eod", "user_eods"];
 
   const SelectedComponent = Components[component];
 
@@ -28,7 +29,8 @@ const Home = () => {
       <UserBar
         component={component}
         setComponent={setComponent}
-        title={title}
+        title={`${user.first_name} ${user.last_name}`}
+        pages={pages}
       />
       <div>
         <SelectedComponent

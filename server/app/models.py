@@ -15,7 +15,7 @@ class Users(db.Model, UserMixin):
     password_hash = Column(String(256), nullable=False, unique=True)
     department = Column(dpt_enum)
     is_admin = Column(Boolean, server_default='0')
-    eods = relationship('EOD', back_populates='salesman', lazy=True)
+    eods = relationship('EOD', back_populates='salesman', lazy=True) 
     
     def serialize(self):
         return {
@@ -28,7 +28,7 @@ class Users(db.Model, UserMixin):
         }
         
         
-class EOD(db.Model):
+class EOD(db.Model):   
     __tablename__ = "eod"
     
     id = Column(Integer, primary_key=True)

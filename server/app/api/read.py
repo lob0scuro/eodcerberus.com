@@ -136,3 +136,4 @@ def run_report(id, date):
         totals["ebay_returns"] += e.ebay_returns
         
     return jsonify(success=True, totals=totals), 200
+

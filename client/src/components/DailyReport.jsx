@@ -20,10 +20,12 @@ const DailyReport = ({ report, date }) => {
             style={{ width: "80px", alignSelf: "center" }}
             alt=""
           />
-          <h2>
-            {user.first_name} {user.last_name}
-          </h2>
-          <p className={styles.reportHeaderDate}>{formatDate(date)}</p>
+          <div>
+            <h2>
+              {user.first_name} {user.last_name}
+            </h2>
+            <p className={styles.reportHeaderDate}>{formatDate(date)}</p>
+          </div>
         </div>
         <button className={styles.printPageButton} onClick={printPage}>
           <FontAwesomeIcon icon={faPrint} />

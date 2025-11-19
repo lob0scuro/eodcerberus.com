@@ -58,8 +58,29 @@ p.reportHeaderDate {
     font-size: 12pt; /* adjust font size to fit content */
   }
 
+  .reportHeader > div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: last baseline;
+  }
+
+  .reportHeader > div > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0;
+  }
+
   .reportHeader h2 {
-    font-size: 0.8rem;
+    font-size: 1.8rem;
+  }
+  .reportHeader p {
+    font-size: 1.5rem;
+    transform: scale(1.5);
+    align-self: center;
+    margin: 0;
   }
 
   .reportPage button {
@@ -81,6 +102,9 @@ p.reportHeaderDate {
   .reportData li {
     margin: 0.2rem 0; /* smaller spacing */
     padding: 8px;
+  }
+  .reportData li:first-child {
+    font-size: 20pt;
   }
 
   @page {

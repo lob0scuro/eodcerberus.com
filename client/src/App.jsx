@@ -14,6 +14,7 @@ import Login from "./routes/Auth/Login";
 import ProtectedLayout from "./layout/ProtectedLayout";
 import Analytics from "./routes/Analytics/Analytics";
 import Settings from "./routes/Settings/Settings";
+import Users from "./routes/Users/Users";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -24,7 +25,7 @@ const App = () => {
           <Route path="analytics" element={<Analytics />} />
           <Route path="settings" element={<Settings />} />
         </Route>
-        <Route path="register" element={<Register />} />
+        <Route path="users" element={<Users />} />
         <Route path="login" element={<Login />} />
       </Route>
     )

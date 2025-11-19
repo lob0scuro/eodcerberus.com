@@ -1,5 +1,5 @@
-import toast from "react-hot-toast";
 import styles from "./Register.module.css";
+import toast from "react-hot-toast";
 import React, { useState, useEffect } from "react";
 
 const Register = () => {
@@ -58,8 +58,8 @@ const Register = () => {
   };
   return (
     <>
-      <h1 className={styles.registerHeader}>Registration</h1>
       <form className={styles.registrationForm} onSubmit={handleSubmit}>
+        <h2 style={{ color: "var(--linkText)" }}>Register New User</h2>
         <div className={styles.adminCheck}>
           <label htmlFor="is_admin">Admin:</label>
           <input

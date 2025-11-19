@@ -39,6 +39,7 @@ const UserEODs = ({ setComponent, setTicket }) => {
   }, []);
 
   useEffect(() => {
+    setTotals(null);
     const fetchEODs = async () => {
       try {
         const response = await fetch(
@@ -85,7 +86,6 @@ const UserEODs = ({ setComponent, setTicket }) => {
       if (!data.success) {
         throw new Error(data.message);
       }
-      setEods([]);
       setTotals(data.totals);
     } catch (error) {
       console.error("[ERROR]: ", error);
@@ -154,7 +154,7 @@ const UserEODs = ({ setComponent, setTicket }) => {
       </div>
 
       <div className={styles.eodListBox}>
-        {eods.length === 0 ? (
+        {totals ? (
           // <p className={styles.noEODs}>
           //   [ No EODs found for{" "}
           //   {users.find((u) => u.id === Number(userId))?.first_name ||

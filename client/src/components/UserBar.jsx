@@ -3,17 +3,46 @@ import React, { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCaretDown,
+  faChartSimple,
   faEllipsisVertical,
   faEye,
   faFileInvoiceDollar,
   faList,
+  faUserPlus,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import AddEOD from "../routes/Create/AddEOD";
+import ReadEOD from "../routes/Read/ReadEOD";
+import UserEODs from "../routes/Read/UserEODs";
 
-const UserBar = ({ setComponent, component, title }) => {
-  const [activeButton, setActiveButton] = useState(0);
+const paths = {
+  add_eod: {
+    icon: faSquarePlus,
+    component: AddEOD,
+  },
+  read_eod: {
+    icon: faEye,
+    component: (props) => <ReadEOD {...props} />,
+  },
+  user_eods: {
+    icon: faList,
+    component: (props) => <UserEODs {...props} />,
+  },
+  view_users: {
+    icon: faUsers,
+  },
+  register_user: {
+    icon: faUserPlus,
+  },
+  user_metrics: {
+    icon: faChartSimple,
+  },
+};
+
+const UserBar = ({ setComponent, component, title, pages }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const { user } = useAuth();
@@ -34,24 +63,14 @@ const UserBar = ({ setComponent, component, title }) => {
     <div className={styles.userBar}>
       <h2 className={styles.homeUser}>{title}</h2>
       <div className={styles.userBarButtonBlock}>
-        <button
-          className={component === "add_eod" ? styles.activeButton : ""}
-          onClick={() => setComponent("add_eod")}
-        >
-          <FontAwesomeIcon icon={faSquarePlus} />
-        </button>
-        <button
-          className={component === "read_eod" ? styles.activeButton : ""}
-          onClick={() => setComponent("read_eod")}
-        >
-          <FontAwesomeIcon icon={faEye} />
-        </button>
-        <button
-          className={component === "user_eods" ? styles.activeButton : ""}
-          onClick={() => setComponent("user_eods")}
-        >
-          <FontAwesomeIcon icon={faList} />
-        </button>
+        {pages?.map((page) => (
+          <button
+            className={component === page ? styles.activeButton : ""}
+            onClick={() => setComponent(page)}
+          >
+            <FontAwesomeIcon icon={paths[page].icon} />
+          </button>
+        ))}
         <button
           className={menuOpen ? styles.activeButton : ""}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -68,7 +87,7 @@ const UserBar = ({ setComponent, component, title }) => {
           <Link to={"/"}>Home</Link>
           <Link to="/analytics">Analytics</Link>
           <Link to="/settings">Settings</Link>
-          {user.is_admin && <Link to="/register">Register User</Link>}
+          {user.is_admin && <Link to="/users">Users</Link>}
         </div>
       )}
     </div>
