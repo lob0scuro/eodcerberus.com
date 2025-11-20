@@ -5,11 +5,10 @@ import {
   faCaretDown,
   faChartSimple,
   faClipboardList,
+  faClipboardUser,
   faEllipsisVertical,
-  faEye,
   faFileContract,
   faFileInvoiceDollar,
-  faList,
   faMagnifyingGlass,
   faMoneyBillTransfer,
   faUserPlus,
@@ -52,6 +51,9 @@ const paths = {
   },
   report_home: {
     icon: faFileContract,
+  },
+  user_reports: {
+    icon: faClipboardUser,
   },
 };
 

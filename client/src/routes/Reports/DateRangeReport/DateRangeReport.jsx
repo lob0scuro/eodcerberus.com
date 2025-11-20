@@ -8,15 +8,20 @@ const DateRangeReport = () => {
 
   return (
     <div className={styles.dateRangeContainer}>
-      <div>
-        <label htmlFor="start_date">Start Date</label>
-        <input type="date" name="start_date" id="start_date" />
+      <div className={styles.dateInputContainer}>
+        <div className={styles.dateInput}>
+          <label htmlFor="start_date">Start Date</label>
+          <input type="date" name="start_date" id="start_date" />
+        </div>
+        <div className={styles.dateInput}>
+          <label htmlFor="end_date">End Date</label>
+          <input type="date" name="end_date" id="end_date" />
+        </div>
       </div>
-      <div>
-        <label htmlFor="end_date">End Date</label>
-        <input type="date" name="end_date" id="end_date" />
+      <div className={styles.dateRangeButtonBlock}>
+        <button>Run daily report for {formatLocationName(location)}</button>
+        <button>Run master report</button>
       </div>
-      <p></p>
     </div>
   );
 };

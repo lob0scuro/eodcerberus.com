@@ -5,8 +5,11 @@ import { formatCurrency, formatDate } from "../utils/Helpers";
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const DailyReport = ({ report, date }) => {
+const DailyReport = ({ report, date, start_date, end_date }) => {
   const { user } = useAuth();
+  const title = report.salesman
+    ? `${report.salesman.first_name} ${report.salesman.last_name}`
+    : report.location;
 
   const printPage = () => {
     window.print();
@@ -21,9 +24,7 @@ const DailyReport = ({ report, date }) => {
             alt=""
           />
           <div>
-            <h2>
-              {report.salesman.first_name} {report.salesman.last_name}
-            </h2>
+            <h2>{title}</h2>
             <p className={styles.reportHeaderDate}>{formatDate(date)}</p>
           </div>
         </div>

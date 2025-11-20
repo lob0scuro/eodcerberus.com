@@ -265,6 +265,7 @@ def get_deductions_by_date_range(id):
 def run_report(id, date):
     date = datetime.strptime(date, "%Y-%m-%d").date()
     
+    
     eods = EOD.query.filter(EOD.date == date, EOD.user_id == id).all()
     deductions = Deductions.query.filter(Deductions.date == date, Deductions.user_id == id).all()
     salesman = Users.query.get(id)
@@ -275,6 +276,18 @@ def run_report(id, date):
         
     return jsonify(success=True, totals=totals), 200
 
+@reader.route("/run_report_by_date_range/<int:id>", methods=["GET"])
+def run_report_by_date_range(id):
+    start_date = datetime.strptime(request.args.get("start_date"), "%Y-%m-%d").date()
+    end_date = datetime.strptime(request.args.get("end_date"), "%Y-%m-%d").date()
+    
+    eods = EOD.query.filter(EOD.user_id == id, EOD.date.between(start_date, end_date)).all()
+    deductions = Deductions.query.filter(Deductions.user_id == id, Deductions.date.between(start_date, end_date)).all()
+    
+    totals = calculate_totals(eods, deductions)
+    
+    
+    return jsonify(success=True, totals=totals), 200
 
 
 #-----------------------
@@ -290,6 +303,7 @@ def run_location_report():
     deductions = Deductions.query.filter(Deductions.date == date, Deductions.location == location).all()
     
     totals = calculate_totals(eods, deductions)
+    totals["location"] = location
     
     return jsonify(success=True, totals=totals), 200
 
@@ -307,6 +321,7 @@ def run_location_report_by_date():
     deductions = Deductions.query.filter(Deductions.location == location, Deductions.date.between(start_date, end_date)).all()
     
     totals = calculate_totals(eods, deductions)
+    totals["location"] = location
     
     return jsonify(success=True, totals=totals), 200
 
