@@ -12,7 +12,7 @@ import Home from "./routes/Home/Home";
 import Register from "./routes/Auth/Register";
 import Login from "./routes/Auth/Login";
 import ProtectedLayout from "./layout/ProtectedLayout";
-import Analytics from "./routes/Analytics/Analytics";
+import Reports from "./routes/Reports/Reports";
 import Settings from "./routes/Settings/Settings";
 import Users from "./routes/Users/Users";
 
@@ -22,7 +22,7 @@ const App = () => {
       <Route path="/" element={<RootLayout />}>
         <Route element={<ProtectedLayout />}>
           <Route index element={<Home />} />
-          <Route path="analytics" element={<Analytics />} />
+          <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
         </Route>
         <Route path="users" element={<Users />} />

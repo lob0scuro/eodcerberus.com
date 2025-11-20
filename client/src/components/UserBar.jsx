@@ -7,6 +7,7 @@ import {
   faClipboardList,
   faEllipsisVertical,
   faEye,
+  faFileContract,
   faFileInvoiceDollar,
   faList,
   faMagnifyingGlass,
@@ -14,11 +15,13 @@ import {
   faUserPlus,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCalendarDays,
+  faSquarePlus,
+} from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-<FontAwesomeIcon icon={faFileInvoiceDollar} />;
 const paths = {
   add_eod: {
     icon: faSquarePlus,
@@ -43,6 +46,12 @@ const paths = {
   },
   view_deductions: {
     icon: faFileInvoiceDollar,
+  },
+  date_range_report: {
+    icon: faCalendarDays,
+  },
+  report_home: {
+    icon: faFileContract,
   },
 };
 
@@ -90,7 +99,7 @@ const UserBar = ({ setComponent, component, title, pages }) => {
       {menuOpen && (
         <div className={styles.userMenu} ref={menuRef}>
           <Link to={"/"}>Home</Link>
-          <Link to="/analytics">Reports</Link>
+          <Link to="/reports">Reports</Link>
           <Link to="/settings">Settings</Link>
           {user.is_admin && <Link to="/users">Users</Link>}
         </div>

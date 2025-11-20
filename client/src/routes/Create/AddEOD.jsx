@@ -2,13 +2,8 @@ import styles from "./AddEOD.module.css";
 import React, { useState, useMemo } from "react";
 import toast from "react-hot-toast";
 import MoneyField from "../../components/MoneyField";
-import { formatCurrency } from "../../utils/Helpers";
+import { formatCurrency, formatLocationName } from "../../utils/Helpers";
 import { useAuth } from "../../context/AuthContext";
-
-const formatLocationName = {
-  lake_charles: "Lake Charles",
-  jennings: "Jennings",
-};
 
 const AddEOD = () => {
   const { location } = useAuth();
@@ -157,7 +152,7 @@ const AddEOD = () => {
           <br />
           <hr />
           <small style={{ fontWeight: "600", color: "var(--buttonPrimary)" }}>
-            Submitting Ticket for {formatLocationName[location]}
+            Submitting Ticket for {formatLocationName(location)}
           </small>
           <br />
         </div>

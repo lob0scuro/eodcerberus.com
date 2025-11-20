@@ -1,14 +1,9 @@
 import MoneyField from "../../components/MoneyField";
 import styles from "./AddDeduction.module.css";
 import React, { useState } from "react";
-import { formatDate } from "../../utils/Helpers";
+import { formatDate, formatLocationName } from "../../utils/Helpers";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
-
-const formatLocationName = {
-  lake_charles: "Lake Charles",
-  jennings: "Jennings",
-};
 
 const AddDeduction = () => {
   const { location } = useAuth();

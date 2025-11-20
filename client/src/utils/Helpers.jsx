@@ -1,3 +1,9 @@
+export const formatLocationName = (location) => {
+  const formatted = { lake_charles: "Lake Charles", jennings: "Jennings" };
+
+  return formatted[location];
+};
+
 export function formatDate(dateString) {
   // const [year, month, day] = dateString.split("-").map(Number);
 

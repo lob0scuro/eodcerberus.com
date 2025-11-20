@@ -1,0 +1,26 @@
+.reportHomeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  width: 60%;
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
+.reportHomeContainer input[type="date"] {
+  font-size: 18px;
+  border: 2px solid var(--linkText);
+  color: var(--buttonPrimary);
+}
+
+.reportHomeContainer button {
+  background-color: var(--linkText);
+  color: var(--textPrimary);
+  border: none;
+  border-radius: 8px;
+  padding: 18px 20px;
+  font-size: 1.5rem;
+  box-shadow: -1px 1px 8px var(--background);
+  width: 100%;
+}
