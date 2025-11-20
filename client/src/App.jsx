@@ -27,6 +27,7 @@ const App = () => {
         </Route>
         <Route path="users" element={<Users />} />
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Route>
     )
   );
