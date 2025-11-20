@@ -12,6 +12,10 @@
   --buttonSecondary: #8999af;
 }
 
+.jenn {
+  --linkText: #262f4c;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -129,12 +133,12 @@ footer {
   align-items: center;
   padding-block: 1rem;
   box-shadow: 0 -2px 8px var(--bannerBackground);
-  background-color: var(--buttonSecondary);
+  background-color: var(--linkText);
 }
 footer button#logout-link {
   background-color: transparent;
   border: none;
-  color: var(--buttonPrimary);
+  color: var(--textPrimary);
   font-size: 18px;
   font-weight: 700;
   text-decoration: underline;

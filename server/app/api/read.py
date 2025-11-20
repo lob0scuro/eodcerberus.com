@@ -230,9 +230,7 @@ def get_deductions_by_user(id, date):
 def get_deductions_by_date_range(id):
     start_date_str = request.args.get("start_date")
     end_date_str = request.args.get("end_date")
-    
-    
-    
+
     query = Deductions.query.filter(Deductions.user_id == id)
     
     if start_date_str and end_date_str:
@@ -293,10 +291,9 @@ def run_report_by_date_range(id):
 #-----------------------
 #   RUN REPORT BY STORE FOR A SPECIFIC DATE
 #-----------------------
-@reader.route("/run_location_report_by_date", methods=["GET"])
+@reader.route("/run_location_report_by_date/<location>", methods=["GET"])
 @login_required
-def run_location_report():
-    location = request.args.get("location").strip()
+def run_location_report(location):
     date = datetime.strptime(request.args.get("date"), "%Y-%m-%d").date()
     
     eods = EOD.query.filter(EOD.location == location, EOD.date == date).all()
@@ -310,10 +307,9 @@ def run_location_report():
 #-----------------------
 #   RUN A REPORT BY STORE FOR A SINGLE DATE
 #-----------------------
-@reader.route("/run_location_report_by_date_range", methods=["GET"])
+@reader.route("/run_location_report_by_date_range/<location>", methods=["GET"])
 @login_required
-def run_location_report_by_date():
-    location = request.args.get("location")
+def run_location_report_by_date(location):
     start_date = datetime.strptime(request.args.get("start_date"), "%Y-%m-%d").date()
     end_date = datetime.strptime(request.args.get("end_date"), "%Y-%m-%d").date()
     
@@ -338,7 +334,7 @@ def run_master_report_by_date():
     
     totals = calculate_totals(eods, deductions)    
     
-    return jsonify(success=True, totals=totals), 200
+    return jsonify(success=True, totals=totals, master=True), 200
 
 #-----------------------
 #   RUN MASTER REPORT FOR A SPECIFIC DATE RANGE
@@ -354,4 +350,4 @@ def run_master_by_date_range():
     
     totals = calculate_totals(eods, deductions)
     
-    return jsonify(success=True, totals=totals), 200
+    return jsonify(success=True, totals=totals, master=True), 200

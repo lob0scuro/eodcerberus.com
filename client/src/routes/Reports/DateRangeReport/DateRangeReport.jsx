@@ -1,28 +1,81 @@
 import styles from "./DateRangeReport.module.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { formatLocationName } from "../../../utils/Helpers";
+import DailyReport from "../../../components/DailyReport";
+import toast from "react-hot-toast";
 
 const DateRangeReport = () => {
   const { location } = useAuth();
+  const today = new Date().toISOString().split("T")[0];
+  const [dates, setDates] = useState({
+    start_date: today,
+    end_date: today,
+  });
+  const [report, setReport] = useState(null);
+  const [master, setMaster] = useState(false);
+
+  const url = !master
+    ? `/api/read/run_location_report_by_date_range/${location}?start_date=${dates.start_date}&end_date=${dates.end_date}`
+    : `/api/read/run_master_by_date_range?start_date=${dates.start_date}&end_date=${dates.end_date}`;
+
+  useEffect(() => {
+    const fetchReport = async () => {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (!data.success) {
+        toast.error(data.message || "Something went wrong");
+      }
+      setReport(data.totals);
+    };
+    fetchReport();
+  }, [dates, location, master]);
 
   return (
-    <div className={styles.dateRangeContainer}>
-      <div className={styles.dateInputContainer}>
-        <div className={styles.dateInput}>
-          <label htmlFor="start_date">Start Date</label>
-          <input type="date" name="start_date" id="start_date" />
+    <>
+      <div className={styles.dateRangeContainer}>
+        <div className={styles.dateInputContainer}>
+          <div className={styles.dateInput}>
+            <label htmlFor="start_date">Start Date</label>
+            <input
+              type="date"
+              name="start_date"
+              id="start_date"
+              value={dates.start_date}
+              onChange={(e) =>
+                setDates({ ...dates, start_date: e.target.value })
+              }
+            />
+          </div>
+          <div className={styles.dateInput}>
+            <label htmlFor="end_date">End Date</label>
+            <input
+              type="date"
+              name="end_date"
+              id="end_date"
+              value={dates.end_date}
+              onChange={(e) => setDates({ ...dates, end_date: e.target.value })}
+            />
+          </div>
         </div>
-        <div className={styles.dateInput}>
-          <label htmlFor="end_date">End Date</label>
-          <input type="date" name="end_date" id="end_date" />
+        <button onClick={() => setMaster(!master)}>
+          {master
+            ? `Switch to ${formatLocationName(location)}`
+            : "Switch to Master"}{" "}
+          Report
+        </button>
+      </div>
+      {report && (
+        <div className={styles.dateRangeReportData}>
+          <DailyReport
+            report={report}
+            start_date={dates.start_date}
+            end_date={dates.end_date}
+            master={master}
+          />
         </div>
-      </div>
-      <div className={styles.dateRangeButtonBlock}>
-        <button>Run daily report for {formatLocationName(location)}</button>
-        <button>Run master report</button>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

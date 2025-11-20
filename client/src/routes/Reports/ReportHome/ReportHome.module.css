@@ -1,10 +1,11 @@
 .reportHomeContainer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3rem;
-  width: 60%;
-  max-width: 400px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  width: 80%;
+  max-width: 1200px;
   margin: 2rem auto;
 }
 
@@ -14,13 +15,52 @@
   color: var(--buttonPrimary);
 }
 
-.reportHomeContainer button {
+.reportHomeDatePicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.reportHomeDatePicker > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reportHomeDatePicker > div button {
+  background-color: var(--buttonSecondary);
+  color: var(--textPrimary);
+  border: none;
+  border-radius: 6px;
+  padding: 5px 8px;
+  box-shadow: -1px 1px 4px #000;
+  font-size: 14px;
+}
+.reportHomeDatePicker > div button:nth-child(2) {
+  background-color: transparent;
+  color: var(--linkText);
+  border: none;
+  box-shadow: unset;
+  padding: 0;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.reportHomeContainer button.runMasterButton {
   background-color: var(--linkText);
   color: var(--textPrimary);
   border: none;
   border-radius: 8px;
-  padding: 18px 20px;
-  font-size: 1.5rem;
+  padding: 10px 8px;
+  font-size: 1rem;
+  font-weight: 700;
   box-shadow: -1px 1px 8px var(--background);
-  width: 100%;
+}
+
+.singleDateReportContainer {
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
 }

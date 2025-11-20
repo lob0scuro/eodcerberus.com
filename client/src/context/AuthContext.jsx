@@ -35,6 +35,11 @@ export const AuthContext = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("location", location);
+    if (location === "jennings") {
+      document.documentElement.classList.add("jenn");
+    } else {
+      document.documentElement.classList.remove("jenn");
+    }
   }, [location]);
 
   return (

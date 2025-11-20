@@ -57,7 +57,7 @@ const AddDeduction = () => {
       <form className={styles.deductionForm} onSubmit={handleSubmit}>
         <h2>Deductions</h2>
         <small style={{ fontWeight: "600", marginBottom: "10px" }}>
-          Submitting deduction for {formatLocationName[location]}
+          Submitting deduction for {formatLocationName(location)}
         </small>
         <div>
           <label htmlFor="date">Date</label>

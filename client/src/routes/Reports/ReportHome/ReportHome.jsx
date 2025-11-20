@@ -1,25 +1,104 @@
 import styles from "./ReportHome.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { formatLocationName } from "../../../utils/Helpers";
+import toast from "react-hot-toast";
+import DailyReport from "../../../components/DailyReport";
 
 const ReportHome = () => {
   const { location } = useAuth();
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [report, setReport] = useState(null);
+  const [master, setMaster] = useState(false);
+
+  useEffect(() => {
+    const runReport = async () => {
+      const response = await fetch(
+        `/api/read/run_location_report_by_date/${location}?date=${date}`
+      );
+      const data = await response.json();
+      if (!data.success) {
+        toast.error(data.message || "Something went wrong.");
+        return;
+      }
+      setReport(data.totals);
+    };
+    runReport();
+  }, [date, location]);
+
+  const runLocationReport = async (type) => {
+    const url =
+      type === "master"
+        ? `/api/read/run_master_by_date?date=${date}`
+        : `/api/read/run_location_report_by_date/${location}?date=${date}`;
+    const reponse = await fetch(url);
+    const data = await reponse.json();
+    if (!data.success) {
+      toast.error(data.message || "Something went wrong.");
+      return;
+    }
+    if (data.master) {
+      setMaster(true);
+    } else {
+      setMaster(false);
+    }
+    setReport(data.totals);
+  };
+
+  const shiftDate = (dateStr, amount) => {
+    const d = new Date(dateStr);
+    d.setDate(d.getDate() + amount);
+    return d.toISOString().split("T")[0];
+  };
 
   return (
     <>
       <div className={styles.reportHomeContainer}>
-        <input
-          type="date"
-          name="date"
-          id="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-        <button>Run daily report for {formatLocationName(location)}</button>
-        <button>Run Master Report</button>
+        <div className={styles.reportHomeDatePicker}>
+          <div>
+            <button
+              onClick={() => {
+                const prev = shiftDate(date, -1);
+                setDate(prev);
+              }}
+            >
+              prev
+            </button>
+            <button
+              onClick={() => setDate(new Date().toISOString().split("T")[0])}
+            >
+              today
+            </button>
+            <button
+              onClick={() => {
+                const next = shiftDate(date, 1);
+                setDate(next);
+              }}
+            >
+              next
+            </button>
+          </div>
+          <input
+            type="date"
+            name="date"
+            id="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
+
+        <button
+          className={styles.runMasterButton}
+          onClick={() => runLocationReport(master ? "location" : "master")}
+        >
+          Run {master ? "Location" : "Master"} Report
+        </button>
       </div>
+      {report && (
+        <div className={styles.singleDateReportContainer}>
+          <DailyReport report={report} date={date} master={master} />
+        </div>
+      )}
     </>
   );
 };

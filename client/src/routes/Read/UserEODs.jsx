@@ -159,59 +159,54 @@ const UserEODs = ({ setComponent, setTicket }) => {
           </button>
         </div>
       </div>
-
-      <div className={styles.eodListBox}>
-        {totals ? (
-          <DailyReport report={totals} date={reportDate} />
-        ) : (
-          <ul>
-            {eods.map(
-              ({
-                id,
-                ticket_number,
-                date,
-                sub_total,
-                card,
-                cash,
-                checks,
-                acima,
-                tower_loan,
-                extended_warranty,
-                salesman,
-              }) => (
-                <li
-                  key={id}
-                  onClick={() => {
-                    setTicket(ticket_number);
-                    setComponent("read_eod");
-                  }}
-                >
-                  <div>
-                    <p>{formatDate(date)}</p>
-                    <h3>{ticket_number}</h3>
-                    <p className={styles.subTotal}>
-                      Subtotal: {formatCurrency(sub_total)}
-                    </p>
-                    <small>
-                      {salesman.first_name} {salesman.last_name[0]}.
-                    </small>
-                  </div>
-                  <div>
-                    <p>Card: {formatCurrency(card)}</p>
-                    <p>Cash: {formatCurrency(cash)}</p>
-                    <p>Checks: {formatCurrency(checks)}</p>
-                    <p>Acima: {formatCurrency(acima)}</p>
-                    <p>Tower Load: {formatCurrency(tower_loan)}</p>
-                    <p>
-                      Extended Warranty: {formatCurrency(extended_warranty)}
-                    </p>
-                  </div>
-                </li>
-              )
-            )}
-          </ul>
-        )}
-      </div>
+      {totals ? (
+        <DailyReport report={totals} date={reportDate} />
+      ) : (
+        <ul className={styles.eodListBox}>
+          {eods.map(
+            ({
+              id,
+              ticket_number,
+              date,
+              sub_total,
+              card,
+              cash,
+              checks,
+              acima,
+              tower_loan,
+              extended_warranty,
+              salesman,
+            }) => (
+              <li
+                key={id}
+                onClick={() => {
+                  setTicket(ticket_number);
+                  setComponent("read_eod");
+                }}
+              >
+                <div>
+                  <p>{formatDate(date)}</p>
+                  <h3>{ticket_number}</h3>
+                  <p className={styles.subTotal}>
+                    Subtotal: {formatCurrency(sub_total)}
+                  </p>
+                  <small>
+                    {salesman.first_name} {salesman.last_name[0]}.
+                  </small>
+                </div>
+                <div>
+                  <p>Card: {formatCurrency(card)}</p>
+                  <p>Cash: {formatCurrency(cash)}</p>
+                  <p>Checks: {formatCurrency(checks)}</p>
+                  <p>Acima: {formatCurrency(acima)}</p>
+                  <p>Tower Load: {formatCurrency(tower_loan)}</p>
+                  <p>Extended Warranty: {formatCurrency(extended_warranty)}</p>
+                </div>
+              </li>
+            )
+          )}
+        </ul>
+      )}
     </section>
   );
 };

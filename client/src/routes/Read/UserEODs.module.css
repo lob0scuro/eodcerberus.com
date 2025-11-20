@@ -20,7 +20,7 @@
 .searchBar {
   width: 80%;
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 0 auto 2rem auto;
   display: flex;
   flex-direction: row;
   gap: 14px;
@@ -76,7 +76,7 @@ select {
   background-color: var(--linkText);
 }
 
-.eodListBox ul {
+.eodListBox {
   list-style-type: none;
   padding: 0;
   margin-block: 1rem;

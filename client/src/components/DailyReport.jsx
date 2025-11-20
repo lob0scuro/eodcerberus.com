@@ -1,19 +1,33 @@
 import styles from "./DailyReport.module.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { formatCurrency, formatDate } from "../utils/Helpers";
+import {
+  formatCurrency,
+  formatDate,
+  formatLocationName,
+} from "../utils/Helpers";
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const DailyReport = ({ report, date, start_date, end_date }) => {
-  const { user } = useAuth();
+const DailyReport = ({ report, date, start_date, end_date, master }) => {
+  if (!report) return null;
+
   const title = report.salesman
     ? `${report.salesman.first_name} ${report.salesman.last_name}`
-    : report.location;
+    : formatLocationName(report.location);
+
+  const displayDate = date
+    ? formatDate(date)
+    : `${formatDate(start_date)} - ${formatDate(end_date)}`;
 
   const printPage = () => {
     window.print();
   };
+
+  useEffect(() => {
+    console.log(report);
+    console.log(title);
+  });
   return (
     <div className={styles.reportPage}>
       <div className={styles.reportHeader}>
@@ -24,8 +38,8 @@ const DailyReport = ({ report, date, start_date, end_date }) => {
             alt=""
           />
           <div>
-            <h2>{title}</h2>
-            <p className={styles.reportHeaderDate}>{formatDate(date)}</p>
+            <h2>{master ? "Master" : title}</h2>
+            <p className={styles.reportHeaderDate}>{displayDate}</p>
           </div>
         </div>
         <button className={styles.printPageButton} onClick={printPage}>

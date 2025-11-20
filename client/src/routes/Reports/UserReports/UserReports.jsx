@@ -1,7 +1,7 @@
 import styles from "./UserReports.module.css";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
-import { formatLocationName } from "../../../utils/Helpers";
+import { formatDate, formatLocationName } from "../../../utils/Helpers";
 import toast from "react-hot-toast";
 import DailyReport from "../../../components/DailyReport";
 
@@ -46,25 +46,33 @@ const UserReports = () => {
   };
 
   useEffect(() => {
-    const handleSubmit = async () => {
-      try {
-        const url =
-          params.start_date === params.end_date
-            ? `/api/read/run_report/${params.user_id}/${params.end_date}`
-            : `/api/read/run_report_by_date_range/${params.user_id}?start_date=${params.start_date}&end_date=${params.end_date}`;
+    const runReport = async () => {
+      const server =
+        params.start_date === params.end_date
+          ? `/api/read/run_report/${params.user_id}/${params.end_date}`
+          : `/api/read/run_report_by_date_range/${params.user_id}?start_date=${params.start_date}&end_date=${params.end_date}`;
 
-        const response = await fetch(url);
+      try {
+        const response = await fetch(server);
         const data = await response.json();
         if (!data.success) {
           throw new Error(data.message || "Something went wrong.");
         }
         setReport(data.totals);
       } catch (error) {
+        toast.error(error.message);
+        setReport(null);
         console.log("[ERROR]: ", error);
       }
     };
-    handleSubmit();
+    runReport();
   }, [params]);
+
+  const shiftDate = (dateStr, amount) => {
+    const d = new Date(dateStr);
+    d.setDate(d.getDate() + amount);
+    return d.toISOString().split("T")[0];
+  };
 
   return (
     <div className={styles.userReportsBlock}>
@@ -90,9 +98,25 @@ const UserReports = () => {
             ))}
           </select>
         </div>
-        <button className={styles.runToday} onClick={setToday}>
-          Run Todays Report
-        </button>
+        <div className={styles.dayMover}>
+          <button
+            onClick={() => {
+              const prev = shiftDate(params.start_date, -1);
+              setParams({ ...params, start_date: prev, end_date: prev });
+            }}
+          >
+            prev
+          </button>
+          <button onClick={setToday}>Today</button>
+          <button
+            onClick={() => {
+              const next = shiftDate(params.end_date, 1);
+              setParams({ ...params, start_date: next, end_date: next });
+            }}
+          >
+            next
+          </button>
+        </div>
         <div className={styles.dateBlock}>
           <div>
             <label htmlFor="start_date">Start Date</label>
@@ -114,9 +138,13 @@ const UserReports = () => {
           </div>
         </div>
       </div>
-      <div className={styles.eodListBox}>
+      <div className={styles.reportBlock}>
         {report ? (
-          <DailyReport report={report} />
+          <DailyReport
+            report={report}
+            start_date={params.start_date}
+            end_date={params.end_date}
+          />
         ) : (
           <h3>Choose to run report</h3>
         )}
