@@ -23,8 +23,8 @@ const UserAnalytics = () => {
   const [users, setUsers] = useState([]);
   const [userID, setUserID] = useState(user.id);
   const [dates, setDates] = useState({
-    start_date: "2025-11-01",
-    end_date: "2025-11-19",
+    start_date: today,
+    end_date: today,
   });
 
   const [data, setData] = useState(null);
@@ -51,12 +51,33 @@ const UserAnalytics = () => {
       setData(data.data);
     };
     fetchData();
-  }, [userID]);
+  }, [userID, dates]);
 
   const shiftDate = (dateStr, amount) => {
     const d = new Date(dateStr + "T00:00");
     d.setDate(d.getDate() + amount);
     return d.toLocaleDateString("en-CA");
+  };
+
+  const handlePrev = () => {
+    setDates((prev) => ({
+      start_date: shiftDate(prev.start_date, -1),
+      end_date: shiftDate(prev.end_date, -1),
+    }));
+  };
+
+  const handleNext = () => {
+    setDates((prev) => ({
+      start_date: shiftDate(prev.start_date, 1),
+      end_date: shiftDate(prev.end_date, 1),
+    }));
+  };
+
+  const handleToday = () => {
+    setDates({
+      start_date: today,
+      end_date: today,
+    });
   };
 
   return (
@@ -74,107 +95,151 @@ const UserAnalytics = () => {
             </option>
           ))}
         </select>
+        <div className={styles.analyticsDateHandlers}>
+          <div>
+            <label htmlFor="start_date">Start Date</label>
+            <input
+              type="date"
+              name="start_date"
+              value={dates.start_date}
+              onChange={(e) =>
+                setDates({ ...dates, start_date: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <label htmlFor="end_date">End Date</label>
+            <input
+              type="date"
+              name="end_date"
+              value={dates.end_date}
+              onChange={(e) => setDates({ ...dates, end_date: e.target.value })}
+            />
+          </div>
+          <div className={styles.analyticsButtonBlock}>
+            <button onClick={handlePrev}>prev</button>
+            <button onClick={handleToday}>today</button>
+            <button onClick={handleNext}>next</button>
+          </div>
+        </div>
       </div>
       {data && (
         <div className={styles.analyticsData}>
           {/* 1️⃣ Line Chart for Subtotal and Units */}
-          <h3>Revenue vs Units Over Time</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <ComposedChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis
-                yAxisId="left"
-                label={{ value: "Revenue", angle: -90, position: "insideLeft" }}
-              />
-              <YAxis
-                yAxisId="right"
-                orientation="right"
-                label={{ value: "Units", angle: 90, position: "insideRight" }}
-              />
-              <Tooltip />
-              <Legend />
-              <Bar
-                yAxisId="left"
-                dataKey="sub_total"
-                fill="#8884d8"
-                name="Sub Total"
-              />
-              <Line
-                yAxisId="right"
-                type="monotone"
-                dataKey="units"
-                stroke="#82ca9d"
-                name="Units Sold"
-              />
-            </ComposedChart>
-          </ResponsiveContainer>
-
-          {/* 2️⃣ Stacked Bar Chart for Revenue Categories */}
-          <h3>Revenue Breakdown</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart
-              data={data}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="new" stackId="revenue" fill="#8884d8" />
-              <Bar dataKey="used" stackId="revenue" fill="#82ca9d" />
-              <Bar
-                dataKey="extended_warranty"
-                stackId="revenue"
-                fill="#ffc658"
-              />
-              <Bar dataKey="diagnostic_fees" stackId="revenue" fill="#d0ed57" />
-              <Bar dataKey="in_shop_repairs" stackId="revenue" fill="#a4de6c" />
-              <Bar dataKey="ebay_sales" stackId="revenue" fill="#8dd1e1" />
-              <Bar dataKey="service" stackId="revenue" fill="#83a6ed" />
-              <Bar dataKey="parts" stackId="revenue" fill="#8884d8" />
-              <Bar dataKey="delivery" stackId="revenue" fill="#82ca9d" />
-            </BarChart>
-          </ResponsiveContainer>
-
-          {/* 3️⃣ Stacked Bar Chart for Payment Methods */}
-          <h3>Payment Methods</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart
-              data={data}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="cash" stackId="payments" fill="#8884d8" />
-              <Bar dataKey="card" stackId="payments" fill="#82ca9d" />
-              <Bar dataKey="checks" stackId="payments" fill="#ffc658" />
-              <Bar dataKey="acima" stackId="payments" fill="#d0ed57" />
-              <Bar dataKey="tower_loan" stackId="payments" fill="#a4de6c" />
-            </BarChart>
-          </ResponsiveContainer>
-
-          {/* 4️⃣ Line Chart for Deductions */}
-          <h3>Deductions Over Time</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="deductions"
-                stroke="#ff7300"
-                name="Deductions"
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <div>
+            <h3>Revenue vs Units Over Time</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <ComposedChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis
+                  yAxisId="left"
+                  label={{
+                    value: "Revenue",
+                    angle: -90,
+                    position: "insideLeft",
+                  }}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  label={{ value: "Units", angle: 90, position: "insideRight" }}
+                />
+                <Tooltip />
+                <Legend />
+                <Bar
+                  yAxisId="left"
+                  dataKey="sub_total"
+                  fill="#8884d8"
+                  name="Sub Total"
+                />
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="units"
+                  stroke="#82ca9d"
+                  name="Units Sold"
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+          <div>
+            {/* 2️⃣ Stacked Bar Chart for Revenue Categories */}
+            <h3>Revenue Breakdown</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart
+                data={data}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="new" stackId="revenue" fill="#8884d8" />
+                <Bar dataKey="used" stackId="revenue" fill="#82ca9d" />
+                <Bar
+                  dataKey="extended_warranty"
+                  stackId="revenue"
+                  fill="#ffc658"
+                />
+                <Bar
+                  dataKey="diagnostic_fees"
+                  stackId="revenue"
+                  fill="#d0ed57"
+                />
+                <Bar
+                  dataKey="in_shop_repairs"
+                  stackId="revenue"
+                  fill="#a4de6c"
+                />
+                <Bar dataKey="ebay_sales" stackId="revenue" fill="#8dd1e1" />
+                <Bar dataKey="service" stackId="revenue" fill="#83a6ed" />
+                <Bar dataKey="parts" stackId="revenue" fill="#8884d8" />
+                <Bar dataKey="delivery" stackId="revenue" fill="#82ca9d" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div>
+            {/* 3️⃣ Stacked Bar Chart for Payment Methods */}
+            <h3>Payment Methods</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart
+                data={data}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="cash" stackId="payments" fill="#8884d8" />
+                <Bar dataKey="card" stackId="payments" fill="#82ca9d" />
+                <Bar dataKey="checks" stackId="payments" fill="#ffc658" />
+                <Bar dataKey="acima" stackId="payments" fill="#d0ed57" />
+                <Bar dataKey="tower_loan" stackId="payments" fill="#a4de6c" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div>
+            {/* 4️⃣ Line Chart for Deductions */}
+            <h3>Deductions Over Time</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="deductions"
+                  stroke="#ff7300"
+                  name="Deductions"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       )}
     </div>
