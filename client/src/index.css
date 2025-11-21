@@ -144,3 +144,8 @@ footer button#logout-link {
   text-decoration: underline;
   margin-bottom: 14px;
 }
+
+button:disabled {
+  background-color: #272b33;
+  color: #1e1e1e;
+}

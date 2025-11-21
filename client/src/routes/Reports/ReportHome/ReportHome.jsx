@@ -74,6 +74,7 @@ const ReportHome = () => {
                 const next = shiftDate(date, 1);
                 setDate(next);
               }}
+              disabled={date === new Date().toISOString().split("T")[0]}
             >
               next
             </button>

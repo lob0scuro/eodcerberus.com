@@ -113,6 +113,7 @@ const UserReports = () => {
               const next = shiftDate(params.end_date, 1);
               setParams({ ...params, start_date: next, end_date: next });
             }}
+            disabled={params.end_date === today}
           >
             next
           </button>
