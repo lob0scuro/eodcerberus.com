@@ -26,7 +26,7 @@ export function formatDate(dateString) {
 
   const dayName = days[date.getDay()];
   const monthName = months[date.getMonth()];
-  const day = date.getDay();
+  const day = date.getDate();
   const year = date.getFullYear();
 
   // Determine ordinal suffix (st, nd, rd, th)
