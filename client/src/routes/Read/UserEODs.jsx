@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import styles from "./UserEODs.module.css";
 import React, { useEffect, useState } from "react";
-import { formatCurrency, formatDate } from "../../utils/Helpers";
+import { formatCurrency, formatDate, getToday } from "../../utils/Helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileInvoiceDollar } from "@fortawesome/free-solid-svg-icons";
 import DailyReport from "../../components/DailyReport";
@@ -11,9 +11,9 @@ const UserEODs = ({ setComponent, setTicket }) => {
   const [eods, setEods] = useState([]);
   const { user } = useAuth();
   const today = new Date().toISOString().split("T")[0];
-  const [startDate, setStartDate] = useState(today);
-  const [endDate, setEndDate] = useState(today);
-  const [reportDate, setReportDate] = useState(today);
+  const [startDate, setStartDate] = useState(getToday());
+  const [endDate, setEndDate] = useState(getToday());
+  const [reportDate, setReportDate] = useState(getToday());
   const [users, setUsers] = useState([]);
   const [userId, setUserId] = useState(user.id);
   const [totals, setTotals] = useState(null);
@@ -182,6 +182,7 @@ const UserEODs = ({ setComponent, setTicket }) => {
                 onClick={() => {
                   setTicket(ticket_number);
                   setComponent("read_eod");
+                  console.log(date);
                 }}
               >
                 <div>

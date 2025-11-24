@@ -1,7 +1,7 @@
 import styles from "./DateRangeReport.module.css";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
-import { formatLocationName } from "../../../utils/Helpers";
+import { formatLocationName, getToday } from "../../../utils/Helpers";
 import DailyReport from "../../../components/DailyReport";
 import toast from "react-hot-toast";
 
@@ -9,8 +9,8 @@ const DateRangeReport = () => {
   const { location } = useAuth();
   const today = new Date().toISOString().split("T")[0];
   const [dates, setDates] = useState({
-    start_date: today,
-    end_date: today,
+    start_date: getToday(),
+    end_date: getToday(),
   });
   const [report, setReport] = useState(null);
   const [master, setMaster] = useState(false);

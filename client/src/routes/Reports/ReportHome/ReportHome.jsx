@@ -1,13 +1,17 @@
 import styles from "./ReportHome.module.css";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
-import { formatLocationName } from "../../../utils/Helpers";
+import {
+  formatLocationName,
+  getToday,
+  shiftDate,
+} from "../../../utils/Helpers";
 import toast from "react-hot-toast";
 import DailyReport from "../../../components/DailyReport";
 
 const ReportHome = () => {
   const { location } = useAuth();
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(getToday());
   const [report, setReport] = useState(null);
   const [master, setMaster] = useState(false);
 
@@ -43,12 +47,6 @@ const ReportHome = () => {
       setMaster(false);
     }
     setReport(data.totals);
-  };
-
-  const shiftDate = (dateStr, amount) => {
-    const d = new Date(dateStr);
-    d.setDate(d.getDate() + amount);
-    return d.toISOString().split("T")[0];
   };
 
   return (
