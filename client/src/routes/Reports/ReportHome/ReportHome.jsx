@@ -8,6 +8,7 @@ import {
 } from "../../../utils/Helpers";
 import toast from "react-hot-toast";
 import DailyReport from "../../../components/DailyReport";
+import Toggler from "../../../components/toggler/Toggler";
 
 const ReportHome = () => {
   const { location } = useAuth();
@@ -81,13 +82,7 @@ const ReportHome = () => {
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
-
-        <button
-          className={styles.runMasterButton}
-          onClick={() => runLocationReport(master ? "location" : "master")}
-        >
-          Run {master ? "Location" : "Master"} Report
-        </button>
+        <Toggler val={master} setVal={setMaster} location={location} />
       </div>
       {report && (
         <div className={styles.singleDateReportContainer}>

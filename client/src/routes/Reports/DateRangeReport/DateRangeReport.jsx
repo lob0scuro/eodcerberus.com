@@ -4,6 +4,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { formatLocationName, getToday } from "../../../utils/Helpers";
 import DailyReport from "../../../components/DailyReport";
 import toast from "react-hot-toast";
+import Toggler from "../../../components/toggler/Toggler";
 
 const DateRangeReport = () => {
   const { location } = useAuth();
@@ -58,12 +59,7 @@ const DateRangeReport = () => {
             />
           </div>
         </div>
-        <button onClick={() => setMaster(!master)}>
-          {master
-            ? `Switch to ${formatLocationName(location)}`
-            : "Switch to Master"}{" "}
-          Report
-        </button>
+        <Toggler val={master} setVal={setMaster} location={location} />
       </div>
       {report && (
         <div className={styles.dateRangeReportData}>
