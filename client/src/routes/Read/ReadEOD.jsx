@@ -43,7 +43,6 @@ const ReadEOD = ({ ticket }) => {
         if (!data.success) {
           throw new Error(data.message);
         }
-        console.log(data.eod);
         setEodData(data.eod);
         setFormData({
           units: data.eod.units || "",

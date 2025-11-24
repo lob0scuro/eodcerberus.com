@@ -65,9 +65,9 @@ const UserReports = () => {
         }
         setReport(data.totals);
       } catch (error) {
+        console.error("[ERROR]: ", error);
         toast.error(error.message);
         setReport(null);
-        console.log("[ERROR]: ", error);
       }
     };
     runReport();

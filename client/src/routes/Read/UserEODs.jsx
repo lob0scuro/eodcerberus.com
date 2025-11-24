@@ -84,7 +84,6 @@ const UserEODs = ({ setComponent, setTicket }) => {
       if (!data.success) {
         throw new Error(data.message);
       }
-      console.log(data.totals);
       setTotals(data.totals);
     } catch (error) {
       console.error("[ERROR]: ", error);
@@ -182,7 +181,6 @@ const UserEODs = ({ setComponent, setTicket }) => {
                 onClick={() => {
                   setTicket(ticket_number);
                   setComponent("read_eod");
-                  console.log(date);
                 }}
               >
                 <div>

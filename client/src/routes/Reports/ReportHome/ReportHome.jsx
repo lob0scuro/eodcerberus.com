@@ -62,17 +62,13 @@ const ReportHome = () => {
             >
               prev
             </button>
-            <button
-              onClick={() => setDate(new Date().toISOString().split("T")[0])}
-            >
-              today
-            </button>
+            <button onClick={() => setDate(getToday())}>today</button>
             <button
               onClick={() => {
                 const next = shiftDate(date, 1);
                 setDate(next);
               }}
-              disabled={date === new Date().toISOString().split("T")[0]}
+              disabled={date === getToday()}
             >
               next
             </button>
