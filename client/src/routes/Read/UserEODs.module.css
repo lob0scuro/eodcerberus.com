@@ -131,11 +131,14 @@ select {
 .eodListBox div:last-child p {
   font-size: 14px;
   color: var(--background);
-  /* background-color: var(--linkText); */
+  background-color: var(--inputBackground);
   border: 1px solid var(--bannerBackground);
-  padding: 2px;
+  border-radius: 4px;
+  box-shadow: -1px 1px 2px #000;
+  padding: 4px;
 }
 .eodListBox div:last-child p:hover {
+  font-weight: 600;
   /* font-size: 16px; */
   background-color: var(--linkText);
   color: var(--textPrimary);
