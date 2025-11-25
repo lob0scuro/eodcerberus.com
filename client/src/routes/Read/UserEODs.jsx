@@ -186,6 +186,9 @@ const UserEODs = ({ setComponent, setTicket }) => {
               refunds,
               ebay_sales,
               in_shop_repairs,
+              parts,
+              delivery,
+              service,
             }) => (
               <li key={id}>
                 <div>
@@ -208,15 +211,18 @@ const UserEODs = ({ setComponent, setTicket }) => {
                 <div>
                   <p>New: {formatCurrency(new_appliances)}</p>
                   <p>Used: {formatCurrency(used)}</p>
+                  <p>Extended Warranty: {formatCurrency(extended_warranty)}</p>
                   <p>In Shop Repairs: {formatCurrency(in_shop_repairs)}</p>
+                  <p>Ebay Sales: {formatCurrency(ebay_sales)}</p>
+                  <p>Diagnostic Fees: {formatCurrency(diagnostic_fees)}</p>
+                  <p>Delivery: {formatCurrency(delivery)}</p>
+                  <p>Parts: {formatCurrency(parts)}</p>
+                  <p>Service: {formatCurrency(service)}</p>
                   <p>Card: {formatCurrency(card)}</p>
                   <p>Cash: {formatCurrency(cash)}</p>
                   <p>Checks: {formatCurrency(checks)}</p>
                   <p>Acima: {formatCurrency(acima)}</p>
                   <p>Tower Load: {formatCurrency(tower_loan)}</p>
-                  <p>Extended Warranty: {formatCurrency(extended_warranty)}</p>
-                  <p>Diagnostic Fees: {formatCurrency(diagnostic_fees)}</p>
-                  <p>Ebay Sales: {formatCurrency(ebay_sales)}</p>
                   <p className={styles.redP}>
                     Refunds: {formatCurrency(refunds)}
                   </p>
