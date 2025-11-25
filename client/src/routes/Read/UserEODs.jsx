@@ -78,6 +78,7 @@ const UserEODs = ({ setComponent, setTicket }) => {
 
     setStartDate(start);
     setEndDate(end);
+    setReportDate(start);
   };
 
   const runReport = async (id) => {
