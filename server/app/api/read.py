@@ -57,7 +57,7 @@ def get_user(id):
 
 @reader.route("/get_users", methods=["GET"])
 def get_users():
-    users = Users.query.filter_by(is_admin=False)
+    users = Users.query.filter_by(is_admin=False).all()
     if not users:
         return jsonify(success=False, message="No users found."), 400
     return jsonify(success=True, users=[u.serialize() for u in users]), 200
@@ -69,7 +69,7 @@ def get_users():
 @reader.route("/monthly_totals", methods=["GET"])
 @login_required
 def monthly_totals():
-    users = Users.query.filter_by(is_admin=False)
+    users = Users.query.filter_by(is_admin=False).all()
     if not users:
         return jsonify(success=False, message="There was an error when querying users."), 404
     
