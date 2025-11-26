@@ -39,7 +39,8 @@
 .userList li div h2 svg.king {
   color: goldenrod;
   position: absolute;
-  top: -15px;
-  left: -22px;
-  font-size: 2.2rem;
+  top: -20px;
+  left: -24px;
+  font-size: 2.4rem;
+  transform: rotate(-30deg);
 }
