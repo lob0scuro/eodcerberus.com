@@ -37,6 +37,9 @@ const AddDeduction = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
+      if (response.status === 409) {
+        throw new Error(data.message);
+      }
       if (!data.success) {
         throw new Error(data.message);
       }

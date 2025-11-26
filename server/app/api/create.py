@@ -18,6 +18,10 @@ def to_int(value):
 @login_required
 def submit_eod():
     data = request.get_json()
+    
+    duplicate = EOD.query.filter_by(ticket_number=data.get("ticket_number")).first()
+    if duplicate:
+        return jsonify(success=False, message=f"Ticket number {duplicate.ticket_number} has already been entered"), 409
 
     new_eod = EOD(
         location=data.get("location").strip(),
@@ -42,6 +46,7 @@ def submit_eod():
         date=datetime.strptime(data.get("date"), "%Y-%m-%d").date() if data.get("date") else date.today(),
         user_id=current_user.id
     )
+    
 
     try:
         db.session.add(new_eod)
