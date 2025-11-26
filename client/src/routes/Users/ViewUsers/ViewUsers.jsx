@@ -2,7 +2,7 @@ import styles from "./ViewUsers.module.css";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCrown, faUser } from "@fortawesome/free-solid-svg-icons";
 import { formatCurrency, months } from "../../../utils/Helpers";
 
 const ViewUsers = () => {
@@ -48,10 +48,13 @@ const ViewUsers = () => {
       {usersWithTotals.length > 0 ? (
         <ul className={styles.userList}>
           {usersWithTotals.map(
-            ({ id, first_name, last_name, email, department, total }) => (
+            ({ id, first_name, last_name, department, total }, index) => (
               <li key={id}>
                 <div>
                   <h2>
+                    {index + 1 === 1 && (
+                      <FontAwesomeIcon icon={faCrown} className={styles.king} />
+                    )}
                     {first_name} {last_name}
                   </h2>
                   <FontAwesomeIcon icon={faUser} />
