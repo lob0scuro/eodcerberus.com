@@ -165,7 +165,6 @@ const AddEOD = () => {
                 value={selectedUser}
                 onChange={(e) => setSelectedUser(Number(e.target.value))}
               >
-                <option value="">--select user---</option>
                 {users?.map(({ id, first_name, last_name }) => (
                   <option value={id} key={id}>
                     {first_name} {last_name}
