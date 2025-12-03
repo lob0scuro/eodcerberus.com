@@ -47,13 +47,11 @@ const DailyReport = ({
           <div>
             {multi ? (
               <small className={styles.multiList}>
-                [
                 {multi.map(({ id, first_name, last_name }) => (
                   <span key={id}>
                     {first_name} {last_name},&nbsp;&nbsp;
                   </span>
                 ))}
-                ]
               </small>
             ) : (
               <>

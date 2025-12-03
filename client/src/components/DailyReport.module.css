@@ -12,6 +12,13 @@
   width: 100%;
 }
 
+.reportHeader small.multiList {
+  display: flex;
+  flex-direction: column;
+  margin-block: 10px;
+  font-weight: 600;
+}
+
 p.reportHeaderDate {
   font-style: italic;
   margin-left: 3px;
@@ -122,6 +129,10 @@ p.reportHeaderDate {
     flex-direction: column;
     align-items: flex-end;
     padding: 0;
+  }
+
+  .reportHeader small.multiList {
+    align-items: flex-end;
   }
 
   .reportHeader h2 {
