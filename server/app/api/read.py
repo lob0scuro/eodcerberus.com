@@ -322,6 +322,33 @@ def run_report_by_date_range(id):
 
 
 #-----------------------
+#   RUN REPORT FOR A LIST OF USERS
+#-----------------------
+@reader.route("/multi_user_report", methods=["GET"])
+def multi_user_report():
+    try:
+        user_ids = [int(uid) for uid in request.args.getlist("users")]
+
+        start_date = datetime.strptime(request.args.get("start_date"), "%Y-%m-%d").date()
+        end_date = datetime.strptime(request.args.get("end_date"), "%Y-%m-%d").date()
+
+        eods = EOD.query.filter(
+            EOD.user_id.in_(user_ids),
+            EOD.date.between(start_date, end_date)
+        ).all()
+
+        deductions = Deductions.query.filter(
+            Deductions.user_id.in_(user_ids),
+            Deductions.date.between(start_date, end_date)
+        ).all()
+
+        totals = calculate_totals(eods, deductions)
+        return jsonify(success=True, totals=totals), 200
+    except Exception as e:
+        current_app.logger.error(f"[MULTI-USER REPORT ERROR]: {e}")
+        return jsonify(success=False, message="There was an error when running multi-user report"), 500
+    
+#-----------------------
 #   RUN REPORT BY STORE FOR A SPECIFIC DATE
 #-----------------------
 @reader.route("/run_location_report_by_date/<location>", methods=["GET"])

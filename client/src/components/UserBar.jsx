@@ -2,6 +2,7 @@ import styles from "./UserBar.module.css";
 import React, { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowsDownToPeople,
   faCaretDown,
   faChartSimple,
   faClipboardList,
@@ -58,6 +59,9 @@ const paths = {
   },
   user_rankings: {
     icon: faRankingStar,
+  },
+  multi_user: {
+    icon: faArrowsDownToPeople,
   },
 };
 
