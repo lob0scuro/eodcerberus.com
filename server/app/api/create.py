@@ -18,10 +18,38 @@ def to_int(value):
 @login_required
 def submit_eod():
     data = request.get_json()
+    if not data:
+        return jsonify(success=False, message="Invalid JSON payload"), 400
+    new = data.get("new")
+    used = data.get("used")
+    extended_warranty = data.get("extended_warranty")
+    diagnostic_fees = data.get("diagnostic_fees")
+    in_shop_repairs = data.get("in_shop_repairs")
+    ebay_sales = data.get("ebay_sales")
+    service = data.get("service")
+    parts = data.get("parts")
+    delivery = data.get("delivery")
+    refunds = data.get("refunds")
+    ebay_returns = data.get("ebay_returns")
+    acima = data.get("acima")
+    tower_loan = data.get("tower_loan")
+    card = data.get("card")
+    cash = data.get("cash")
+    checks = data.get("checks")
+    location = data.get("location")
+    ticket_number = data.get("ticket_number")
+    units = data.get("units")
     
-    duplicate = EOD.query.filter_by(ticket_number=data.get("ticket_number")).first()
+    duplicate = EOD.query.filter_by(ticket_number=to_int(ticket_number)).first()
     if duplicate:
         return jsonify(success=False, message=f"Ticket number {duplicate.ticket_number} has already been entered"), 409
+    
+    if not any([new, used, extended_warranty, diagnostic_fees, in_shop_repairs, ebay_sales, service, parts, delivery, refunds]):
+        return jsonify(success=False, message="At least one sales field must be greater than zero"), 400
+    
+    if not any([card, cash, checks, acima, tower_loan]):
+        return jsonify(success=False, message="At least one payment method must be greater than zero"), 400
+    
     
     submitted_as = data.get("submitted_as")
     if submitted_as:
@@ -33,27 +61,29 @@ def submit_eod():
             return jsonify(success=False, message="Invalid user"), 400
     else:
         user_id = current_user.id
+        
+    
 
     new_eod = EOD(
-        location=data.get("location").strip(),
-        ticket_number=to_int(data.get("ticket_number")),
-        units=to_int(data.get("units")),
-        new=to_int(data.get("new")),
-        used=to_int(data.get("used")),
-        extended_warranty=to_int(data.get("extended_warranty")),
-        diagnostic_fees=to_int(data.get("diagnostic_fees")),
-        in_shop_repairs=to_int(data.get("in_shop_repairs")),
-        ebay_sales=to_int(data.get("ebay_sales")),
-        service=to_int(data.get("service")),
-        parts=to_int(data.get("parts")),
-        delivery=to_int(data.get("delivery")),
-        refunds=to_int(data.get("refunds")),
-        ebay_returns=to_int(data.get("ebay_returns")),
-        acima=to_int(data.get("acima")),
-        tower_loan=to_int(data.get("tower_loan")),
-        card=to_int(data.get("card")),
-        cash=to_int(data.get("cash")),
-        checks=to_int(data.get("checks")),
+        location=location.strip() if location else "",
+        ticket_number=to_int(ticket_number),
+        units=to_int(units),
+        new=to_int(new),
+        used=to_int(used),
+        extended_warranty=to_int(extended_warranty),
+        diagnostic_fees=to_int(diagnostic_fees),
+        in_shop_repairs=to_int(in_shop_repairs),
+        ebay_sales=to_int(ebay_sales),
+        service=to_int(service),
+        parts=to_int(parts),
+        delivery=to_int(delivery),
+        refunds=to_int(refunds),
+        ebay_returns=to_int(ebay_returns),
+        acima=to_int(acima),
+        tower_loan=to_int(tower_loan),
+        card=to_int(card),
+        cash=to_int(cash),
+        checks=to_int(checks),
         date=datetime.strptime(data.get("date"), "%Y-%m-%d").date() if data.get("date") else date.today(),
         user_id=user_id
     )
