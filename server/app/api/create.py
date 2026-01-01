@@ -49,7 +49,7 @@ def submit_eod():
     if not any([new, used, extended_warranty, diagnostic_fees, in_shop_repairs, ebay_sales, labor, parts, delivery, refunds]):
         return jsonify(success=False, message="At least one sales type field must be greater than zero"), 400
     
-    if not any([card, ebay_card, cash, checks, acima, tower_loan, stripe]):
+    if not any([card, ebay_card, cash, checks, acima, tower_loan, stripe, ebay_returns]):
         return jsonify(success=False, message="At least one payment method must be greater than zero"), 400
     
     
