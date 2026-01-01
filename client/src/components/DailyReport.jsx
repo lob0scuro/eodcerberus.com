@@ -87,28 +87,34 @@ const DailyReport = ({
           <span>{formatCurrency(report.extended_warranty_sales)}</span>
         </li>
         <li>
-          <strong>Diagnostic Fees</strong>
-          <span>{formatCurrency(report.diagnostic_fees)}</span>
-        </li>
-        <li>
-          <strong>In-Shop Repairs</strong>
-          <span>{formatCurrency(report.in_shop_repairs)}</span>
-        </li>
-        <li>
-          <strong>Service Sales</strong>
-          <span>{formatCurrency(report.service_sales)}</span>
+          <strong>Delivery Sales</strong>
+          <span>{formatCurrency(report.delivery)}</span>
         </li>
         <li>
           <strong>Parts Sales</strong>
           <span>{formatCurrency(report.parts_sales)}</span>
         </li>
+
+        <li>
+          <strong>Labor Fees</strong>
+          <span>{formatCurrency(report.labor_fees)}</span>
+        </li>
+        <li>
+          <strong>Service Call Diagnostic Fees</strong>
+          <span>{formatCurrency(report.diagnostic_fees)}</span>
+        </li>
+        <li>
+          <strong>In-Shop Diagnostic Fees</strong>
+          <span>{formatCurrency(report.in_shop_repairs)}</span>
+        </li>
+
         <li>
           <strong>Ebay Sales</strong>
           <span>{formatCurrency(report.ebay_sales)}</span>
         </li>
         <li>
-          <strong>Delivery Sales</strong>
-          <span>{formatCurrency(report.delivery)}</span>
+          <strong>Total Refunds</strong>
+          <span>{formatCurrency(report.refunds)}</span>
         </li>
         <li>
           <strong>Total Card</strong>
@@ -146,10 +152,7 @@ const DailyReport = ({
           <strong>Cash Deposits</strong>
           <span>{formatCurrency(report.cash_deposits)}</span>
         </li>
-        <li>
-          <strong>Total Refunds</strong>
-          <span>{formatCurrency(report.refunds)}</span>
-        </li>
+
         <li>
           <strong>Total Ebay Returns</strong>
           <span>{formatCurrency(report.ebay_returns)}</span>

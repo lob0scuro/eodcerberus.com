@@ -67,7 +67,7 @@ class EOD(db.Model):
     diagnostic_fees = Column(Integer, nullable=False, server_default='0')
     in_shop_repairs = Column(Integer, nullable=False, server_default='0')
     ebay_sales = Column(Integer, nullable=False, server_default='0')
-    service = Column(Integer, nullable=False, server_default='0')
+    labor = Column(Integer, nullable=False, server_default='0')
     parts = Column(Integer, nullable=False, server_default='0')
     delivery = Column(Integer, nullable=False, server_default='0')
     refunds = Column(Integer, nullable=False, server_default='0')
@@ -98,7 +98,7 @@ class EOD(db.Model):
             self.diagnostic_fees,
             self.in_shop_repairs,
             self.ebay_sales,
-            self.service,
+            self.labor,
             self.parts,
             self.delivery
         ]
@@ -124,7 +124,7 @@ class EOD(db.Model):
             "diagnostic_fees": self.diagnostic_fees,
             "in_shop_repairs": self.in_shop_repairs,
             "ebay_sales": self.ebay_sales,
-            "service": self.service,
+            "labor": self.labor,
             "parts": self.parts,
             "delivery": self.delivery,
             "refunds": self.refunds,

@@ -25,7 +25,7 @@ const AddEOD = () => {
     diagnostic_fees: "",
     in_shop_repairs: "",
     ebay_sales: "",
-    service: "",
+    labor: "",
     parts: "",
     delivery: "",
     refunds: "",
@@ -59,7 +59,7 @@ const AddEOD = () => {
       "diagnostic_fees",
       "in_shop_repairs",
       "ebay_sales",
-      "service",
+      "labor",
       "parts",
       "delivery",
     ];
@@ -126,7 +126,7 @@ const AddEOD = () => {
         diagnostic_fees: "",
         in_shop_repairs: "",
         ebay_sales: "",
-        service: "",
+        labor: "",
         parts: "",
         delivery: "",
         refunds: "",
@@ -236,37 +236,10 @@ const AddEOD = () => {
             />
           </div>
           <div>
-            <label htmlFor="diagnostic_fees">Diagnostic Fees</label>
+            <label htmlFor="delivery">Delivery</label>
             <MoneyField
-              name={"diagnostic_fees"}
-              value={formData.diagnostic_fees}
-              onChange={handleChange}
-              placeholder={"0.00"}
-            />
-          </div>
-          <div>
-            <label htmlFor="in_shop_repairs">In Shop Repairs</label>
-            <MoneyField
-              name={"in_shop_repairs"}
-              value={formData.in_shop_repairs}
-              onChange={handleChange}
-              placeholder={"0.00"}
-            />
-          </div>
-          <div>
-            <label htmlFor="ebay_sales">Ebay Sales</label>
-            <MoneyField
-              name={"ebay_sales"}
-              value={formData.ebay_sales}
-              onChange={handleChange}
-              placeholder={"0.00"}
-            />
-          </div>
-          <div>
-            <label htmlFor="service">Service</label>
-            <MoneyField
-              name={"service"}
-              value={formData.service}
+              name={"delivery"}
+              value={formData.delivery}
               onChange={handleChange}
               placeholder={"0.00"}
             />
@@ -281,10 +254,37 @@ const AddEOD = () => {
             />
           </div>
           <div>
-            <label htmlFor="delivery">Delivery</label>
+            <label htmlFor="labor">Labor</label>
             <MoneyField
-              name={"delivery"}
-              value={formData.delivery}
+              name={"labor"}
+              value={formData.labor}
+              onChange={handleChange}
+              placeholder={"0.00"}
+            />
+          </div>
+          <div>
+            <label htmlFor="diagnostic_fees">Service Call Diagnostic</label>
+            <MoneyField
+              name={"diagnostic_fees"}
+              value={formData.diagnostic_fees}
+              onChange={handleChange}
+              placeholder={"0.00"}
+            />
+          </div>
+          <div>
+            <label htmlFor="in_shop_repairs">In-Shop Diagnostic</label>
+            <MoneyField
+              name={"in_shop_repairs"}
+              value={formData.in_shop_repairs}
+              onChange={handleChange}
+              placeholder={"0.00"}
+            />
+          </div>
+          <div>
+            <label htmlFor="ebay_sales">Ebay Sales</label>
+            <MoneyField
+              name={"ebay_sales"}
+              value={formData.ebay_sales}
               onChange={handleChange}
               placeholder={"0.00"}
             />

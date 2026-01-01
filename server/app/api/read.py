@@ -9,7 +9,7 @@ reader = Blueprint("read", __name__)
 def calculate_totals(eods, deductions, include_salesman=None):
     totals = {k: 0 for k in [
         "total_sales", "total_units", "new_appliance_sales", "used_appliance_sales",
-        "extended_warranty_sales", "diagnostic_fees", "in_shop_repairs", "service_sales",
+        "extended_warranty_sales", "diagnostic_fees", "in_shop_repairs", "labor_fees",
         "parts_sales", "ebay_sales", "delivery", "card", "ebay_card", "cash", "checks",
         "acima", "tower_loan", "stripe", "refunds", "ebay_returns", "misc_deductions", "cash_deposits"
     ]}
@@ -23,7 +23,7 @@ def calculate_totals(eods, deductions, include_salesman=None):
         totals["extended_warranty_sales"] += e.extended_warranty
         totals["diagnostic_fees"] += e.diagnostic_fees
         totals["in_shop_repairs"] += e.in_shop_repairs
-        totals["service_sales"] += e.service
+        totals["labor_fees"] += e.labor
         totals["parts_sales"] += e.parts
         totals["ebay_sales"] += e.ebay_sales
         totals["delivery"] += e.delivery

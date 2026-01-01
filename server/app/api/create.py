@@ -26,7 +26,7 @@ def submit_eod():
     diagnostic_fees = data.get("diagnostic_fees")
     in_shop_repairs = data.get("in_shop_repairs")
     ebay_sales = data.get("ebay_sales")
-    service = data.get("service")
+    labor = data.get("labor")
     parts = data.get("parts")
     delivery = data.get("delivery")
     refunds = data.get("refunds")
@@ -46,7 +46,7 @@ def submit_eod():
     if duplicate:
         return jsonify(success=False, message=f"Ticket number {duplicate.ticket_number} has already been entered"), 409
     
-    if not any([new, used, extended_warranty, diagnostic_fees, in_shop_repairs, ebay_sales, service, parts, delivery, refunds]):
+    if not any([new, used, extended_warranty, diagnostic_fees, in_shop_repairs, ebay_sales, labor, parts, delivery, refunds]):
         return jsonify(success=False, message="At least one sales type field must be greater than zero"), 400
     
     if not any([card, ebay_card, cash, checks, acima, tower_loan, stripe]):
@@ -76,7 +76,7 @@ def submit_eod():
         diagnostic_fees=to_int(diagnostic_fees),
         in_shop_repairs=to_int(in_shop_repairs),
         ebay_sales=to_int(ebay_sales),
-        service=to_int(service),
+        labor=to_int(labor),
         parts=to_int(parts),
         delivery=to_int(delivery),
         refunds=to_int(refunds),

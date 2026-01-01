@@ -34,7 +34,7 @@ def user_analytics(id):
         "diagnostic_fees": 0,
         "in_shop_repairs": 0,
         "ebay_sales": 0,
-        "service": 0,
+        "labor": 0,
         "parts": 0,
         "delivery": 0,
         "refunds": 0,
@@ -59,7 +59,7 @@ def user_analytics(id):
         d["diagnostic_fees"] += e.diagnostic_fees
         d["in_shop_repairs"] += e.in_shop_repairs
         d["ebay_sales"] += e.ebay_sales
-        d["service"] += e.service
+        d["labor"] += e.labor
         d["parts"] += e.parts
         d["delivery"] += e.delivery
         d["refunds"] += e.refunds

@@ -32,7 +32,7 @@ def update_eod(id):
         eod.diagnostic_fees = to_int(data.get("diagnostic_fees", eod.diagnostic_fees))
         eod.in_shop_repairs = to_int(data.get("in_shop_repairs", eod.in_shop_repairs))
         eod.ebay_sales = to_int(data.get("ebay_sales", eod.ebay_sales))
-        eod.service = to_int(data.get("service", eod.service)  )
+        eod.labor = to_int(data.get("labor", eod.labor)  )
         eod.parts = to_int(data.get("parts", eod.parts))
         eod.delivery = to_int(data.get("delivery", eod.delivery)   )
         eod.refunds = to_int(data.get("refunds", eod.refunds))

@@ -22,7 +22,7 @@ const ReadEOD = ({ ticket }) => {
     diagnostic_fees: "",
     in_shop_repairs: "",
     ebay_sales: "",
-    service: "",
+    labor: "",
     parts: "",
     delivery: "",
     refunds: "",
@@ -52,7 +52,7 @@ const ReadEOD = ({ ticket }) => {
           diagnostic_fees: data.eod.diagnostic_fees || "",
           in_shop_repairs: data.eod.in_shop_repairs || "",
           ebay_sales: data.eod.ebay_sales || "",
-          service: data.eod.service || "",
+          labor: data.eod.labor || "",
           parts: data.eod.parts || "",
           delivery: data.eod.delivery || "",
           refunds: data.eod.refunds || "",
@@ -97,7 +97,7 @@ const ReadEOD = ({ ticket }) => {
         diagnostic_fees: eodData.diagnostic_fees || "",
         in_shop_repairs: eodData.in_shop_repairs || "",
         ebay_sales: eodData.ebay_sales || "",
-        service: eodData.service || "",
+        labor: eodData.labor || "",
         parts: eodData.parts || "",
         delivery: eodData.delivery || "",
         refunds: eodData.refunds || "",
@@ -322,19 +322,19 @@ const ReadEOD = ({ ticket }) => {
               <li>
                 {editing ? (
                   <>
-                    <label htmlFor="service">Service:</label>
+                    <label htmlFor="labor">Labor:</label>
                     <small>
                       <MoneyField
-                        name={"service"}
-                        value={eodData.service}
-                        placeholder={eodData.service}
+                        name={"labor"}
+                        value={eodData.labor}
+                        placeholder={eodData.labor}
                         onChange={handleChange}
                       />
                     </small>
                   </>
                 ) : (
                   <>
-                    Service: <small>{formatCurrency(eodData.service)}</small>
+                    Labor: <small>{formatCurrency(eodData.labor)}</small>
                   </>
                 )}
               </li>
